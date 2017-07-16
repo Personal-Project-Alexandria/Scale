@@ -20,12 +20,32 @@ public class Shape : MonoBehaviour {
 			Vector3 sum = Vector3.zero;
 			if (points != null && points.Count > 0)
 			{
-				foreach (Vector3 point in points)
+				int left = 0;
+				int right = 0;
+				int up = 0;
+				int down = 0;
+
+				for (int i = 0; i < points.Count; i++)
 				{
-					sum += point;
+					if (points[left].x > points[i].x)
+					{
+						left = i;
+					}
+					if (points[right].x < points[i].x)
+					{
+						right = i;
+					}
+					if (points[down].y > points[i].y)
+					{
+						down = i;
+					}
+					if (points[up].y < points[i].y)
+					{
+						up = i;
+					}
 				}
 
-				return sum / points.Count;
+				return new Vector3((points[left].x + points[right].x) / 2, (points[up].y + points[down].y) / 2);
 			}
 			else
 			{
@@ -47,7 +67,7 @@ public class Shape : MonoBehaviour {
 		float curPoint = 0;
 		Vector3 ori = Ball.Instance.transform.position;
 
-		while (curScale < scale/* || curPoint < 1*/)
+		while (curScale < scale)
 		{
 			points.Add(points[0]);
 
@@ -60,9 +80,17 @@ public class Shape : MonoBehaviour {
 
 			Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
-			yield return null;
+			yield return new WaitForFixedUpdate();
 
-			curScale += Time.deltaTime * 0.5f;
+			if (curScale < scale)
+			{
+				curScale += Time.fixedDeltaTime * 0.5f;
+			}
+
+			if (curPoint < 1)
+			{
+				
+			}
 			curPoint = (curScale - 1) / (scale - 1);
 		}
 

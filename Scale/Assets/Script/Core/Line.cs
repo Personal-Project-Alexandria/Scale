@@ -17,7 +17,8 @@ public class Line : MonoBehaviour {
 	protected LineDirection direction;      // Direction of line, detect scale and slice
 	private Shape shape;                    // Parent shape [Line Only]
 	[HideInInspector]
-	public int index;						// Index of line in shape's points
+	public int index;                       // Index of line in shape's point
+	public CircleCollider2D corner;			// Start corner
 
 	protected virtual void Init()
 	{
@@ -58,6 +59,10 @@ public class Line : MonoBehaviour {
 		this.index = index;
 
 		DetectDirection();
+
+		//corner.radius = lineRender.startWidth;
+		corner.transform.localPosition = start;
+		corner.GetComponent<SpriteRenderer>().color = lineRender.startColor;
 
 		if (autoScale)
 		{
@@ -156,6 +161,7 @@ public class Line : MonoBehaviour {
 			if (lineRender != null)
 			{
 				lineRender.SetPosition(0, value);
+				corner.transform.position = value;
 			}
 		}
 		get
