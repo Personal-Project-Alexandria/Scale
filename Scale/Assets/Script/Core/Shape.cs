@@ -9,6 +9,7 @@ public class Shape : MonoBehaviour {
 
 	public GameObject linePrefab;
 	public List<Vector3> points;    // List of points in shape
+
 	//public float scale = 1;			// Scale of shape
 	private List<Line> lines = new List<Line>();
 
@@ -67,8 +68,15 @@ public class Shape : MonoBehaviour {
 		float curPoint = 0;
 		Vector3 ori = Ball.Instance.transform.position;
 
-		while (curScale < scale)
+		while (curScale < scale || curPoint < 1)
 		{
+			List<Vector3> points3 = new List<Vector3>();
+
+			for (int i = 0; i < points.Count; i++)
+			{
+				points3.Add((points[i] - center * curPoint) * curScale);
+			}
+
 			points.Add(points[0]);
 
 			for (int i = 0; i < lines.Count; i++)
@@ -80,6 +88,8 @@ public class Shape : MonoBehaviour {
 
 			Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
+			RenderMesh(points3);
+
 			yield return new WaitForFixedUpdate();
 
 			if (curScale < scale)
@@ -89,9 +99,9 @@ public class Shape : MonoBehaviour {
 
 			if (curPoint < 1)
 			{
-				
+				curPoint += Time.fixedDeltaTime;
 			}
-			curPoint = (curScale - 1) / (scale - 1);
+			
 		}
 
 		// After effect
@@ -220,5 +230,34 @@ public class Shape : MonoBehaviour {
 		}
 
 		return inside;
+	}
+
+	public void RenderMesh(List<Vector3> points3)
+	{
+		Vector2[] points = new Vector2[points3.Count];
+		for (int i = 0; i < points.Length; i++)
+		{
+			points[i] = new Vector2(points3[i].x, points3[i].y);
+		}
+
+		int pointCount = points.Length;
+		MeshFilter mf = GetComponent<MeshFilter>();
+		MeshRenderer mr = GetComponent<MeshRenderer>();
+		Mesh mesh = new Mesh();
+		Vector3[] vertices = new Vector3[pointCount];
+		Vector2[] uv = new Vector2[pointCount];
+		for (int i = 0; i < pointCount; i++)
+		{
+			Vector3 actual = points[i];
+			vertices[i] = new Vector3(actual.x, actual.y);
+			uv[i] = actual;
+		}
+		Triangulator tr = new Triangulator(points);
+		int[] triangles = tr.Triangulate();
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.uv = uv;
+		mf.mesh = mesh;
+		mr.material.color = Color.green;
 	}
 }
