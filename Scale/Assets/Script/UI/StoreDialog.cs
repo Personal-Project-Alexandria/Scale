@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreDialog : MonoBehaviour {
+public class StoreDialog : BaseDialog {
 
 	// Use this for initialization
 	void Start () {

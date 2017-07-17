@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStartDialog : MonoBehaviour {
+public class GameStartDialog : BaseDialog {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void OnClickPlay()
+    {
+        GamePlayDialog dialog = GUIManager.Instance.OnShowDialog<GamePlayDialog>("Play");
+        this.OnCloseDialog();
+    }
+    public void OnClickNoAds()
+    { }
+    public void OnClickShare()
+    { }
+    public void OnClickShop()
+    {
+        GamePlayDialog dialog = GUIManager.Instance.OnShowDialog<GamePlayDialog>("Play");
+        this.OnCloseDialog();
+    }
+    public void OnClickLeaderBoard()
+    { }
+    public void OnClickSound()
+    { }
 }

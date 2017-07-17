@@ -9,6 +9,7 @@ public class GUIManager : MonoSingleton<GUIManager> {
     void Awake()
     {
         this.baseDialogs = new List<BaseDialog>();
+        GameStartDialog dialog = this.OnShowDialog<GameStartDialog>("Start");
     }
     public T OnShowDialog<T>(string path, object data = null) where T : BaseDialog
     {

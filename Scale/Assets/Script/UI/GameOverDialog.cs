@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameOverDialog : MonoBehaviour {
+public class GameOverDialog : BaseDialog {
 
 	// Use this for initialization
 	void Start () {
