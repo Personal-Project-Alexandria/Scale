@@ -8,7 +8,8 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public void Start()
 	{
-		MakeShape(null, true);
+		Shape startShape = MakeShape(null, true);
+		Slicer.Instance.area = startShape.Area();
 	}
 
 	public Shape MakeShape(List<Vector3> points = null, bool scale = false)

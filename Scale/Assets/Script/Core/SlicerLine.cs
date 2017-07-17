@@ -19,6 +19,9 @@ public class SlicerLine : Line {
 	[HideInInspector]
 	public bool crash = false;
 
+	private Line line; // Collider line
+
+
 	protected Slicer slicer; // The slicer who create this sliceLine
 
 	protected override void Init()
@@ -90,21 +93,24 @@ public class SlicerLine : Line {
 
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		Debug.Log(col.name);
-		
 		if (col.CompareTag("Line") && !wait)
 		{
 			wait = true;
-			MakeInfo(col.GetComponent<Line>());
-		}
-
-		if (col.CompareTag("Ball"))
-		{
-			slicer.ClearLine();
+			line = col.GetComponent<Line>();
+			Slicer.Instance.Slice();
 		}
 	}
 
-	public void MakeInfo(Line line)
+	public void OnTriggerStay2D(Collider2D col)
+	{
+		if (col.CompareTag("Ball"))
+		{
+			Debug.Log(col.name);
+			Slicer.Instance.ClearLine();
+		}
+	}
+
+	public void MakeInfo()
 	{
 		if (info == null)
 		{
@@ -119,7 +125,6 @@ public class SlicerLine : Line {
 		transform.localPosition = Vector3.zero;
 	
 		info.addedPoint = PointInLine(this, info.line);
-		slicer.Slice();
 	}
 
 	// Check point exactly

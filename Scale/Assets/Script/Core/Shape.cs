@@ -101,7 +101,6 @@ public class Shape : MonoBehaviour {
 			{
 				curPoint += Time.fixedDeltaTime;
 			}
-			
 		}
 
 		// After effect
@@ -123,7 +122,9 @@ public class Shape : MonoBehaviour {
 
 		points.RemoveAt(points.Count - 1);
 
-		RenderMesh(points);
+		this.RenderMesh(points);
+
+		Slicer.Instance.area = this.Area();
 
 		Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
@@ -303,5 +304,22 @@ public class Shape : MonoBehaviour {
 		mesh.uv = uv;
 		mf.mesh = mesh;
 		mr.material.color = Color.green;
+	}
+
+	public float Area()
+	{
+		int i, j;
+		float area = 0;
+
+		for (i = 0; i < points.Count; i++)
+		{
+			j = (i + 1) % points.Count;
+
+			area += points[i].x * points[j].y;
+			area -= points[i].y * points[j].x;
+		}
+
+		area /= 2;
+		return (area < 0 ? -area : area);
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum SliceType { STRAIGHT, CORNER }
 
-public class Slicer : MonoBehaviour {
+public class Slicer : MonoSingleton<Slicer> {
 
 	public GameObject linePrefab;
 	public SliceType type = SliceType.STRAIGHT;
@@ -14,14 +14,19 @@ public class Slicer : MonoBehaviour {
 
 	private SlicerLine first;
 	private SlicerLine second;
+	[HideInInspector]
+	public float area;
+	private float destroyArea;
 
 	protected void Start()
 	{
+		destroyArea = 0;
+
 		transform.position = start;
 		Reload();
 	}
 
-	public void Init()
+	public void Create()
 	{
 		this.type = (SliceType)Random.Range(0, 2);
 		this.sprite.transform.rotation = Quaternion.identity;
@@ -68,8 +73,11 @@ public class Slicer : MonoBehaviour {
 
 	public void Slice()
 	{
-		if (first.wait && second.wait && first.info.line.GetShape())
+		if (first.wait && second.wait)
 		{
+			first.MakeInfo();
+			second.MakeInfo();
+
 			List<Vector3> points = first.info.line.GetShape().points;
 			List<Vector3> list_one = new List<Vector3>();
 			List<Vector3> list_two = new List<Vector3>();
@@ -97,39 +105,52 @@ public class Slicer : MonoBehaviour {
 
 			if (shape_one.BallInShape(Ball.Instance.transform.position))
 			{
-				StartCoroutine(Clear(1));
+				Clear(1);
 			}
 			else
 			{
-				StartCoroutine(Clear(0));
+				Clear(0);
 			}
 		}
 	}
 
 	protected Shape shape_one, shape_two;
 
-	IEnumerator Clear(int index)
+	void Clear(int index)
 	{
-		yield return new WaitForEndOfFrame();
-
 		Destroy(first.info.line.GetShape().gameObject);
 		Destroy(first.gameObject);
 		Destroy(second.gameObject);
 
 		if (index == 0)
 		{
+			destroyArea += shape_one.Area();
 			Destroy(shape_one.gameObject);
-			shape_two.Scale();
+			//shape_two.Scale();
 		}
 		else
 		{
+			destroyArea += shape_two.Area();
 			Destroy(shape_two.gameObject);
-			shape_one.Scale();
+			//shape_one.Scale();
 		}
 
 		this.grow = false;
 		this.transform.position = start;
 		this.Reload();
+
+		if (destroyArea / area >= 0.7f)
+		{
+			if (index == 0)
+			{
+				shape_two.Scale();
+			}
+			else
+			{
+				shape_one.Scale();
+			}
+			destroyArea = 0;
+		}
 	}
 
 	public void ClearLine()
@@ -170,16 +191,16 @@ public class Slicer : MonoBehaviour {
 	[HideInInspector]
 	public bool grow = false;
 
-	protected void FixedUpdate()
+	protected void Update()
 	{
 		if (this.down)
 		{
-			this.downTime += Time.fixedDeltaTime;
+			this.downTime += Time.deltaTime;
 		}
 
 		if (this.grow)
 		{
-			Grow(Time.fixedDeltaTime * 1.5f);
+			Grow(Time.deltaTime * 1.5f);
 		} 
 	}
 
@@ -230,7 +251,7 @@ public class Slicer : MonoBehaviour {
 
 	public void Reload()
 	{
-		this.Init();
+		this.Create();
 		first.gameObject.SetActive(false);
 		second.gameObject.SetActive(false);
 	}
