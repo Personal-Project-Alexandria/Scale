@@ -94,7 +94,7 @@ public class Shape : MonoBehaviour {
 
 			if (curScale < scale)
 			{
-				curScale += Time.fixedDeltaTime * 0.5f;
+				curScale += Time.fixedDeltaTime * 0.8f;
 			}
 
 			if (curPoint < 1)
@@ -168,8 +168,8 @@ public class Shape : MonoBehaviour {
 			}
 		}
 
-		float scaleX = 2f / Mathf.Abs(points[index].x - center.x);
-		float scaleY = 2f / Mathf.Abs(points[index].y - center.y);
+		float scaleX = 2.5f / Mathf.Abs(points[index].x - center.x);
+		float scaleY = 2.5f / Mathf.Abs(points[index].y - center.y);
 
 		return scaleX < scaleY ? scaleX : scaleY;
 	}

@@ -45,8 +45,7 @@ public class Slicer : MonoBehaviour {
 			second.Create(LineDirection.RIGHT, this);
 		}
 	}
-
-	[ContextMenu("Rotate")]
+	
 	public void Rotate()
 	{
 		first.Rotate();
@@ -57,11 +56,14 @@ public class Slicer : MonoBehaviour {
 
 	public void Grow(float v)
 	{
-		first.gameObject.SetActive(true);
-		second.gameObject.SetActive(true);
+		if (first != null && second != null)
+		{
+			first.gameObject.SetActive(true);
+			second.gameObject.SetActive(true);
 
-		first.Grow(v);
-		second.Grow(v);
+			first.Grow(v);
+			second.Grow(v);
+		}
 	}
 
 	public void Slice()
@@ -130,6 +132,21 @@ public class Slicer : MonoBehaviour {
 		this.Reload();
 	}
 
+	public void ClearLine()
+	{
+		if (first != null)
+		{
+			Destroy(first.gameObject);
+		}
+		if (second != null)
+		{
+			Destroy(second.gameObject);
+		}
+		this.grow = false;
+		this.transform.position = start;
+		this.Reload();
+	}
+
 	public void AddPointsToList(List<Vector3> src, List<Vector3> des, int start, int end)
 	{
 		if (end < start)
@@ -162,7 +179,7 @@ public class Slicer : MonoBehaviour {
 
 		if (this.grow)
 		{
-			Grow(Time.fixedDeltaTime);
+			Grow(Time.fixedDeltaTime * 1.5f);
 		} 
 	}
 
@@ -191,10 +208,10 @@ public class Slicer : MonoBehaviour {
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
 
 			Vector3 tl, tr, bl, br;
-			tl = transform.position + new Vector3(-box.bounds.size.x / 2, box.bounds.size.y / 2);
-			tr = transform.position + new Vector3(box.bounds.size.x / 2, box.bounds.size.y / 2);
-			bl = transform.position + new Vector3(-box.bounds.size.x / 2, -box.bounds.size.y / 2);
-			br = transform.position + new Vector3(box.bounds.size.x / 2, -box.bounds.size.y / 2);
+			tl = transform.position + new Vector3(-box.bounds.size.x / 4, box.bounds.size.y / 4);
+			tr = transform.position + new Vector3(box.bounds.size.x / 4, box.bounds.size.y / 4);
+			bl = transform.position + new Vector3(-box.bounds.size.x / 4, -box.bounds.size.y / 4);
+			br = transform.position + new Vector3(box.bounds.size.x / 4, -box.bounds.size.y / 4);
 
 			if (shape.PointInShape(tl) && shape.PointInShape(tr) && shape.PointInShape(bl) && shape.PointInShape(br))
 			{

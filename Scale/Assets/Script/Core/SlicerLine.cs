@@ -16,6 +16,8 @@ public class SlicerLine : Line {
 	public bool wait = false; // Stop doing 
 	[HideInInspector]
 	public Info info = null; // Store info after sliced
+	[HideInInspector]
+	public bool crash = false;
 
 	protected Slicer slicer; // The slicer who create this sliceLine
 
@@ -88,15 +90,17 @@ public class SlicerLine : Line {
 
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		if (wait == true)
-		{
-			return;
-		}
-
-		if (col.CompareTag("Line"))
+		Debug.Log(col.name);
+		
+		if (col.CompareTag("Line") && !wait)
 		{
 			wait = true;
 			MakeInfo(col.GetComponent<Line>());
+		}
+
+		if (col.CompareTag("Ball"))
+		{
+			slicer.ClearLine();
 		}
 	}
 
@@ -136,4 +140,5 @@ public class SlicerLine : Line {
 
 		return result;
 	}
+
 }
