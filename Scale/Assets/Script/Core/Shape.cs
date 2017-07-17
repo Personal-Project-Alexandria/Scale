@@ -123,6 +123,8 @@ public class Shape : MonoBehaviour {
 
 		points.RemoveAt(points.Count - 1);
 
+		RenderMesh(points);
+
 		Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
 		Ball.Instance.AddForce();
@@ -190,7 +192,7 @@ public class Shape : MonoBehaviour {
 		points.RemoveAt(points.Count - 1);
 	}
 
-	static bool PointInPolygon(Vector3 p, List<Vector3> poly)
+	public static bool PointInPolygon(Vector3 p, List<Vector3> poly)
 	{
 		Vector3 p1, p2;
 
@@ -207,6 +209,48 @@ public class Shape : MonoBehaviour {
 		for (int i = 0; i < poly.Count; i++)
 		{
 			Vector3 newPoint = new Vector3(poly[i].x, poly[i].y);
+
+			if (newPoint.x > oldPoint.x)
+			{
+				p1 = oldPoint;
+				p2 = newPoint;
+			}
+			else
+			{
+				p1 = newPoint;
+				p2 = oldPoint;
+			}
+
+			if ((newPoint.x < p.x) == (p.x <= oldPoint.x)
+			&& ((p.y - p1.y) * (p2.x - p1.x)
+			 < (p2.y - p1.y) * (p.x - p1.x)))
+			{
+				inside = !inside;
+			}
+
+			oldPoint = newPoint;
+		}
+
+		return inside;
+	}
+
+	public bool PointInShape(Vector3 p)
+	{
+		Vector3 p1, p2;
+
+		bool inside = false;
+
+		if (points.Count < 3)
+		{
+			return inside;
+		}
+
+		Vector3 oldPoint = new Vector3(
+		points[points.Count - 1].x, points[points.Count - 1].y);
+
+		for (int i = 0; i < points.Count; i++)
+		{
+			Vector3 newPoint = new Vector3(points[i].x, points[i].y);
 
 			if (newPoint.x > oldPoint.x)
 			{
