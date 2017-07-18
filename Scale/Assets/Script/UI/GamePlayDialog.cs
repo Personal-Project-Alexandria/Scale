@@ -9,14 +9,8 @@ public class GamePlayDialog : BaseDialog
 	{
 		base.OnShow(transf, data);
 
+		GameManager.Instance.gamePlay = this;
 		GameManager.Instance.StartGame();
-	}
-
-	public override void OnHide()
-	{
-		base.OnHide();
-
-		GameManager.Instance.EndGame();
 	}
 
 	public void OnClickPause()

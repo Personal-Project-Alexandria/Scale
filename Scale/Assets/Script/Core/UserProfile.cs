@@ -14,7 +14,6 @@ public class UserProfile : MonoSingleton<UserProfile> {
 
 	private void Awake()
 	{
-		PlayerPrefs.DeleteAll();
 		this.LoadProfile();
 	}
 

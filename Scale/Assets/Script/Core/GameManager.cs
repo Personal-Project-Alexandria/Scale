@@ -15,6 +15,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	public int life;
 	public int level;
 	public float percent;
+	public GamePlayDialog gamePlay;
 
 	public void StartGame()
 	{
@@ -34,6 +35,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		slicer.gameObject.SetActive(false);
 		ball.gameObject.SetActive(false);
 		Destroy(shape.gameObject);
+		gamePlay.OnCloseDialog();
 	}
 
 	public void PauseGame()
@@ -68,6 +70,12 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public void OnLose()
 	{
+		PauseGame();
+		ExtraLifeDialog extraLifeDialog = GUIManager.Instance.OnShowDialog<ExtraLifeDialog>("ExtraLife");
+	}
+
+	public void GameOver()
+	{
 		EndGame();
 
 		UserProfile.Instance.SetHighScore(level);
@@ -75,6 +83,13 @@ public class GameManager : MonoSingleton<GameManager> {
 		UserProfile.Instance.AddDiamond(level * 10);
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
+	}
+
+	public void ContinueOnLose()
+	{
+		life = DEFAULT_LIFE;
+		ball.Restart();
+		slicer.Restart();
 	}
 
 	public Shape MakeShape(List<Vector3> points = null, bool scale = false)
