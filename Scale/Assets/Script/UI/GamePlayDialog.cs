@@ -30,6 +30,7 @@ public class GamePlayDialog : BaseDialog
 	public Text level;
 	public Text diamond;
 	public Slider slider;
+	public Text rotateTip;
 
 	protected void Update()
 	{
@@ -37,6 +38,15 @@ public class GamePlayDialog : BaseDialog
 		level.text = GameManager.Instance.level.ToString();
 		diamond.text = UserProfile.Instance.GetDiamond().ToString();
 		slider.value = GameManager.Instance.percent;
+
+		if (Slicer.Instance.rotateTip.activeInHierarchy)
+		{
+			rotateTip.text = "TAP TO ROTATE";
+		}
+		else
+		{
+			rotateTip.text = "";
+		}
 	}
 }
 

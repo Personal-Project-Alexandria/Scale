@@ -11,6 +11,7 @@ public class Slicer : MonoSingleton<Slicer> {
 	public SpriteRenderer sprite;
 	public Sprite corner;
 	public Sprite straigth;
+	public GameObject rotateTip;
 
 	[HideInInspector]
 	public float area;
@@ -59,6 +60,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		this.Create();
 		first.gameObject.SetActive(false);
 		second.gameObject.SetActive(false);
+		ShowRotateTip();
 	}
 
 	public void Rotate()
@@ -212,6 +214,11 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			Grow(Time.deltaTime * 1.5f);
 		} 
+
+		if (rotateTip.activeInHierarchy)
+		{
+			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
+		}
 	}
 
 	protected void OnMouseDown()
@@ -221,10 +228,13 @@ public class Slicer : MonoSingleton<Slicer> {
 			return;
 		}
 
-		this.down = true;
+		if (!grow && !down)
+		{
+			this.down = true;
 
-		offset = transform.position - Camera.main.ScreenToWorldPoint(
-			new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+			offset = transform.position - Camera.main.ScreenToWorldPoint(
+				new Vector3(Input.mousePosition.x, Input.mousePosition.y));
+		}
 	}
 
 	protected void OnMouseDrag()
@@ -234,8 +244,9 @@ public class Slicer : MonoSingleton<Slicer> {
 			return;
 		}
 
-		if (!this.grow)
+		if (!this.grow && down)
 		{
+			HideRotateTip();
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
 			this.transform.position = curPosition;
 		}
@@ -254,7 +265,6 @@ public class Slicer : MonoSingleton<Slicer> {
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
 
 			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 1.5f;
-			Debug.Log(width);
 
 			Vector3 tl, tr, bl, br;
 			tl = transform.position + new Vector3(-width, width);
@@ -268,12 +278,30 @@ public class Slicer : MonoSingleton<Slicer> {
 			}
 			else
 			{
-				this.Rotate();
+				if (downTime < 0.15f)
+				{
+					this.Rotate();
+				}
+			
 				this.transform.position = start;
+				ShowRotateTip();
 			}
 
 			this.down = false;
 			this.downTime = 0f;
+		}
+	}
+
+	public void ShowRotateTip()
+	{
+		rotateTip.SetActive(true);
+	}
+
+	public void HideRotateTip()
+	{
+		if (rotateTip.activeInHierarchy && rotateTip.transform.position != start)
+		{
+			rotateTip.SetActive(false);
 		}
 	}
 

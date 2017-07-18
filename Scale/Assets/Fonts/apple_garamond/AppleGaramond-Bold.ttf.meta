@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: e24d4c018d9d01a43b88310e2162e0b4
+timeCreated: 1500416041
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Apple Garamond
+  fontNames:
+  - Apple Garamond
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b0cb9675928183648ac930d4e372ad8f, type: 3}
+  - {fileID: 12800000, guid: 8c2384b957b10574fb7e513f154b4e51, type: 3}
+  - {fileID: 12800000, guid: 8656326ed32f57c4d92993f21dcaf2d5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

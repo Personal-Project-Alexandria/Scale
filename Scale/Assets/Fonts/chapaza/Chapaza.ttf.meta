@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f1684ab01a041a14984683f94b4d05ce
+timeCreated: 1500416106
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Chapaza
+  fontNames:
+  - Chapaza
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

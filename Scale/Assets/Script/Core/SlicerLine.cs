@@ -11,7 +11,7 @@ public class SlicerLine : Line {
 		public Line line;
 		public Vector3 addedPoint;
 	}
-	
+
 	[HideInInspector]
 	public bool wait = false; // Stop doing 
 	[HideInInspector]
@@ -72,8 +72,7 @@ public class SlicerLine : Line {
 
 		lineRender.SetPosition(1, end + velocity);
 		ScaleCollider();
-		//boxCollider.size += new Vector2(velocity.x, velocity.y);
-		//boxCollider.offset += new Vector2(velocity.x, velocity.y) / 2;
+		corner.transform.localPosition = end;
 	}
 
 	// Clock-wise rotate
@@ -98,10 +97,7 @@ public class SlicerLine : Line {
 			line = col.GetComponent<Line>();
 			Slicer.Instance.Slice();
 		}
-	}
 
-	public void OnTriggerStay2D(Collider2D col)
-	{
 		if (col.CompareTag("Ball"))
 		{
 			Slicer.Instance.ClearLine();
