@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 // Shape include many points, can be scaled through center
 public class Shape : MonoBehaviour {
 
@@ -129,6 +128,8 @@ public class Shape : MonoBehaviour {
 		Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
 		Ball.Instance.AddForce();
+
+		GameManager.Instance.NextLevel();
 	}
 
 	public void ScaleImmediate()
@@ -151,6 +152,7 @@ public class Shape : MonoBehaviour {
 		}
 
 		points.RemoveAt(points.Count - 1);
+		RenderMesh(points);
 	}
 
 	public float CalculateScale()
@@ -191,6 +193,7 @@ public class Shape : MonoBehaviour {
 			lines.Add(lineObject.GetComponent<Line>());
 		}
 		points.RemoveAt(points.Count - 1);
+		RenderMesh(points);
 	}
 
 	public static bool PointInPolygon(Vector3 p, List<Vector3> poly)
@@ -303,7 +306,7 @@ public class Shape : MonoBehaviour {
 		mesh.triangles = triangles;
 		mesh.uv = uv;
 		mf.mesh = mesh;
-		mr.material.color = Color.green;
+		mr.material.color = new Color32(58, 59, 122, 255);
 	}
 
 	public float Area()

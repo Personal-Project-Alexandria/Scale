@@ -105,8 +105,8 @@ public class SlicerLine : Line {
 	{
 		if (col.CompareTag("Ball"))
 		{
-			Debug.Log(col.name);
 			Slicer.Instance.ClearLine();
+			Ball.Instance.OnHit();
 		}
 	}
 

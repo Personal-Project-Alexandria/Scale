@@ -12,16 +12,19 @@ public class Slicer : MonoSingleton<Slicer> {
 	public Sprite corner;
 	public Sprite straigth;
 
-	private SlicerLine first;
-	private SlicerLine second;
 	[HideInInspector]
 	public float area;
+
+	private SlicerLine first;
+	private SlicerLine second;
 	private float destroyArea;
+	private bool paused = false;
+	protected Shape shape_one;
+	protected Shape shape_two;
 
 	protected void Start()
 	{
 		destroyArea = 0;
-
 		transform.position = start;
 		Reload();
 	}
@@ -50,7 +53,14 @@ public class Slicer : MonoSingleton<Slicer> {
 			second.Create(LineDirection.RIGHT, this);
 		}
 	}
-	
+
+	public void Reload()
+	{
+		this.Create();
+		first.gameObject.SetActive(false);
+		second.gameObject.SetActive(false);
+	}
+
 	public void Rotate()
 	{
 		first.Rotate();
@@ -112,9 +122,7 @@ public class Slicer : MonoSingleton<Slicer> {
 				Clear(0);
 			}
 		}
-	}
-
-	protected Shape shape_one, shape_two;
+	}	
 
 	void Clear(int index)
 	{
@@ -126,29 +134,24 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			destroyArea += shape_one.Area();
 			Destroy(shape_one.gameObject);
-			//shape_two.Scale();
+			GameManager.Instance.shape = shape_two;
 		}
 		else
 		{
 			destroyArea += shape_two.Area();
 			Destroy(shape_two.gameObject);
-			//shape_one.Scale();
+			GameManager.Instance.shape = shape_one;
 		}
 
 		this.grow = false;
 		this.transform.position = start;
 		this.Reload();
 
-		if (destroyArea / area >= 0.7f)
+		GameManager.Instance.percent = destroyArea / area;
+
+		if (GameManager.Instance.percent >= GameManager.Instance.goalPercent)
 		{
-			if (index == 0)
-			{
-				shape_two.Scale();
-			}
-			else
-			{
-				shape_one.Scale();
-			}
+			GameManager.Instance.shape.Scale();
 			destroyArea = 0;
 		}
 	}
@@ -181,7 +184,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		}
 	}
 
-	/*Drag & Drop*/
+	// ----------------------------------------- DRAG AND DROP ------------------------------------------//
 	private Vector3 offset;
 	public Vector3 start;
 	protected const float DOWN_TIME = 0.2f;
@@ -193,6 +196,13 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected void Update()
 	{
+		// If game is pause then return
+		if (paused)
+		{
+			return;
+		}
+
+		// Else process...
 		if (this.down)
 		{
 			this.downTime += Time.deltaTime;
@@ -206,6 +216,11 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected void OnMouseDown()
 	{
+		if (paused)
+		{
+			return;
+		}
+
 		this.down = true;
 
 		offset = transform.position - Camera.main.ScreenToWorldPoint(
@@ -214,6 +229,11 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected void OnMouseDrag()
 	{
+		if (paused)
+		{
+			return;
+		}
+
 		if (!this.grow)
 		{
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
@@ -223,6 +243,11 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected virtual void OnMouseUp()
 	{
+		if (paused)
+		{
+			return;
+		}
+
 		if (down && !this.grow)
 		{
 			BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -249,10 +274,23 @@ public class Slicer : MonoSingleton<Slicer> {
 		}
 	}
 
-	public void Reload()
+	// ------------------------------------- GAME STATE AFFECT THIS ---------------------------------------//
+
+	public void Pause()
 	{
-		this.Create();
-		first.gameObject.SetActive(false);
-		second.gameObject.SetActive(false);
+		this.paused = true;
+	}
+
+	public void Continue()
+	{
+		this.paused = false;
+	}
+
+	public void Restart()
+	{
+		destroyArea = 0;
+		transform.position = start;
+		ClearLine();
+		paused = false;
 	}
 }
