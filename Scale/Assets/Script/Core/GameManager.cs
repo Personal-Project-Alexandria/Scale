@@ -23,10 +23,10 @@ public class GameManager : MonoSingleton<GameManager> {
 		percent = 0f;
 		shape = MakeShape(null, true);
 		slicer.gameObject.SetActive(true);
-		slicer.area = shape.Area();
 		ball.gameObject.SetActive(true);
-		ball.Restart();
-		slicer.Restart();
+		slicer.area = shape.Area();
+		ball.OnStart();
+		slicer.OnStart();
 	}
 
 	public void EndGame()
@@ -54,9 +54,10 @@ public class GameManager : MonoSingleton<GameManager> {
 		level = 1;
 		percent = 0;
 		Destroy(shape.gameObject);
+		shape = MakeShape(null, true);
+		slicer.area = shape.Area();
 		ball.Restart();
 		slicer.Restart();
-		StartGame();
 	}
 
 	public void NextLevel()

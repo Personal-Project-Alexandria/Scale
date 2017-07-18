@@ -24,9 +24,9 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected void Start()
 	{
-		destroyArea = 0;
-		transform.position = start;
-		Reload();
+		//destroyArea = 0;
+		//transform.position = start;
+		//Reload();
 	}
 
 	public void Create()
@@ -253,11 +253,14 @@ public class Slicer : MonoSingleton<Slicer> {
 			BoxCollider2D box = GetComponent<BoxCollider2D>();
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
 
+			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 1.5f;
+			Debug.Log(width);
+
 			Vector3 tl, tr, bl, br;
-			tl = transform.position + new Vector3(-box.bounds.size.x / 4, box.bounds.size.y / 4);
-			tr = transform.position + new Vector3(box.bounds.size.x / 4, box.bounds.size.y / 4);
-			bl = transform.position + new Vector3(-box.bounds.size.x / 4, -box.bounds.size.y / 4);
-			br = transform.position + new Vector3(box.bounds.size.x / 4, -box.bounds.size.y / 4);
+			tl = transform.position + new Vector3(-width, width);
+			tr = transform.position + new Vector3(width, width);
+			bl = transform.position + new Vector3(-width, -width);
+			br = transform.position + new Vector3(width, -width);
 
 			if (shape.PointInShape(tl) && shape.PointInShape(tr) && shape.PointInShape(bl) && shape.PointInShape(br))
 			{
@@ -275,6 +278,11 @@ public class Slicer : MonoSingleton<Slicer> {
 	}
 
 	// ------------------------------------- GAME STATE AFFECT THIS ---------------------------------------//
+
+	public void OnStart()
+	{
+		this.Restart();
+	}
 
 	public void Pause()
 	{

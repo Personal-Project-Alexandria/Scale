@@ -14,7 +14,7 @@ public class Line : MonoBehaviour {
 	[HideInInspector]
 	public LineRenderer lineRender;         // Line renderer of this Line
 	protected BoxCollider2D boxCollider;    // Collider of this line, detect collision
-	protected LineDirection direction;      // Direction of line, detect scale and slice
+	public LineDirection direction;			// Direction of line, detect scale and slice
 	private Shape shape;                    // Parent shape [Line Only]
 	[HideInInspector]
 	public int index;                       // Index of line in shape's point

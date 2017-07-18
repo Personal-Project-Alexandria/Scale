@@ -10,25 +10,24 @@ public class Ball : MonoSingleton<Ball> {
 
 	protected void Start ()
 	{
-		ScaleBall();
-		body = GetComponent<Rigidbody2D>();
-		AddForce();
+		
 	}
 
 	public void AddForce()
 	{
-		if (body != null)
-		{
-			body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200);
-		}
+		//body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200);
 	}
 
 	public void StopForce()
 	{
-		if (body != null)
-		{
-			body.velocity = Vector2.zero;
-		}
+		body.velocity = Vector2.zero;
+	}
+
+	public void OnStart()
+	{
+		ScaleBall();
+		body = GetComponent<Rigidbody2D>();
+		AddForce();
 	}
 
 	public void Pause()
@@ -54,9 +53,9 @@ public class Ball : MonoSingleton<Ball> {
 
 	public void OnHit()
 	{
-		StartCoroutine(Recover(0.5f));
-
 		GameManager.Instance.life--;
+
+		ScaleBall();
 
 		if (GameManager.Instance.life <= 0)
 		{
@@ -64,7 +63,7 @@ public class Ball : MonoSingleton<Ball> {
 		}
 		else
 		{
-			ScaleBall();
+			StartCoroutine(Recover(0.5f));
 		}
 	}
 

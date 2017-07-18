@@ -325,4 +325,30 @@ public class Shape : MonoBehaviour {
 		area /= 2;
 		return (area < 0 ? -area : area);
 	}
+
+	public Line FindLineByStart(Vector3 start)
+	{
+		foreach (Line line in lines)
+		{
+			if (start == line.start)
+			{
+				//GameObject dup = Instantiate(line.gameObject);
+				return line;
+			}
+		}
+		
+		return null;
+	}
+
+	public Line FindLineByEnd(Vector3 end)
+	{
+		foreach (Line line in lines)
+		{
+			if (end == line.end)
+			{
+				return line;
+			}
+		}
+		return null;
+	}
 }

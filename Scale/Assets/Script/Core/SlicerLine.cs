@@ -21,7 +21,6 @@ public class SlicerLine : Line {
 
 	private Line line; // Collider line
 
-
 	protected Slicer slicer; // The slicer who create this sliceLine
 
 	protected override void Init()
@@ -134,16 +133,48 @@ public class SlicerLine : Line {
 
 		if (slicerLine.direction == LineDirection.UP || slicerLine.direction == LineDirection.DOWN)
 		{
+			if (normalLine.direction == LineDirection.UP || normalLine.direction == LineDirection.DOWN)
+			{
+				// If closer to start
+				if (Vector3.Distance(slicerLine.end, normalLine.end) >= Vector3.Distance(slicerLine.end, normalLine.start))
+				{
+					normalLine = normalLine.GetShape().FindLineByEnd(normalLine.start);
+				}
+				// If closer to end
+				else
+				{
+					normalLine = normalLine.GetShape().FindLineByStart(normalLine.end);
+					//GameObject dup = Instantiate(normalLine.gameObject);
+				}
+			}
 			result.x = slicerLine.start.x;
 			result.y = normalLine.start.y;
+
+			info.line = normalLine;
+			line = normalLine;
 		}
 		else
 		{
+			if (normalLine.direction == LineDirection.LEFT || normalLine.direction == LineDirection.RIGHT)
+			{
+				// If closer to start
+				if (Vector3.Distance(slicerLine.end, normalLine.end) >= Vector3.Distance(slicerLine.end, normalLine.start))
+				{
+					normalLine = normalLine.GetShape().FindLineByEnd(normalLine.start);
+				}
+				// If closer to end
+				else
+				{
+					normalLine = normalLine.GetShape().FindLineByStart(normalLine.end);
+				}
+			}
 			result.x = normalLine.start.x;
 			result.y = slicerLine.start.y;
+
+			info.line = normalLine;
+			line = normalLine;
 		}
 
 		return result;
 	}
-
 }
