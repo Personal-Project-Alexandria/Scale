@@ -34,6 +34,7 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	{
 		if (newScore > this.highScore)
 		{
+           
 			return true;
 		}
 		else

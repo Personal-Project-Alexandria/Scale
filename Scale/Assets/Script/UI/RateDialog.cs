@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class RateDialog : BaseDialog {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void OnClickRate()
+    {
+#if UNITY_ANDROID
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.quoclv.bestgame.scalecolor");
+#elif UNITY_IOS
+        Application.OpenURL("https://itunes.apple.com/us/app/scale-color/id1261258088");
+#endif
+    }
 }

@@ -85,7 +85,9 @@ public class GameManager : MonoSingleton<GameManager> {
 		AdManager.Instance.ShowVideo();
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
-	}
+
+        
+    }
 
 	public void QuitGame()
 	{

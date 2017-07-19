@@ -17,14 +17,24 @@ public class GameOverDialog : BaseDialog {
 		base.OnShow(transf, data);
 		SetAllText();
 		Setup();
-	}
+        StartCoroutine( ShowRate());
+
+    }
 
 	public override void OnHide()
 	{
 		StopAllCoroutines();
 		base.OnHide();
 	}
-
+    IEnumerator ShowRate()
+    {
+        yield return new WaitForSeconds(0.5f);
+        int isShow = Random.Range(0, 0);
+        if (isShow == 0)
+        {
+            RateDialog dialog = GUIManager.Instance.OnShowDialog<RateDialog>("Rate");
+        }
+    }
 	public void Setup()
 	{
 		if (UserProfile.Instance.HasAds())
