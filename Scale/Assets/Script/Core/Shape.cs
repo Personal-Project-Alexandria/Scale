@@ -67,7 +67,7 @@ public class Shape : MonoBehaviour {
 		float curPoint = 0;
 		Vector3 ori = Ball.Instance.transform.position;
 
-		while (curScale < scale || curPoint < 1)
+		while (curScale < scale || curPoint < 1f)
 		{
 			List<Vector3> points3 = new List<Vector3>();
 
@@ -93,12 +93,12 @@ public class Shape : MonoBehaviour {
 
 			if (curScale < scale)
 			{
-				curScale += Time.fixedDeltaTime * 0.8f;
+				curScale += Time.fixedDeltaTime * 1f;
 			}
 
 			if (curPoint < 1)
 			{
-				curPoint += Time.fixedDeltaTime;
+				curPoint += Time.fixedDeltaTime * 1.5f;
 			}
 		}
 

@@ -241,7 +241,7 @@ public class Slicer : MonoSingleton<Slicer> {
 			Grow(Time.deltaTime * 1.5f);
 		} 
 
-		if (rotateTip.activeInHierarchy && this.rotate)
+		if (rotateTip.activeInHierarchy)
 		{
 			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
 		}
@@ -320,7 +320,10 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	public void ShowRotateTip()
 	{
-		rotateTip.SetActive(true);
+		if (rotate)
+		{
+			rotateTip.SetActive(true);
+		}
 	}
 
 	public void HideRotateTip()
