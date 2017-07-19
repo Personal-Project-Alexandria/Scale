@@ -82,14 +82,19 @@ public class GameManager : MonoSingleton<GameManager> {
 
 		UserProfile.Instance.AddDiamond(level * 10);
 
+		AdManager.Instance.ShowVideo();
+
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
 	}
 
 	public void ContinueOnLose()
 	{
-		life = DEFAULT_LIFE;
-		ball.Restart();
-		slicer.Restart();
+		if (slicer.gameObject.activeInHierarchy && ball.gameObject.activeInHierarchy)
+		{
+			life = DEFAULT_LIFE;
+			ball.Restart();
+			slicer.Restart();
+		}
 	}
 
 	public Shape MakeShape(List<Vector3> points = null, bool scale = false)

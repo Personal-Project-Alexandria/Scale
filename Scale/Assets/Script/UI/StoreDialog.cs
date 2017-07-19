@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoreDialog : BaseDialog {
 
-	// Use this for initialization
-	void Start () {
-		
+	public Text diamond;
+
+	protected void Update()
+	{
+		diamond.text = UserProfile.Instance.GetDiamond().ToString();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public void OnClickIAP()
+	{
+		iAPDialog iap = GUIManager.Instance.OnShowDialog<iAPDialog>("iAP");
 	}
 }

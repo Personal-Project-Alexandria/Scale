@@ -11,6 +11,7 @@ public class GameStartDialog : BaseDialog {
 	{
 		base.OnShow(transf, data);
 		highScore.text = UserProfile.Instance.GetHighScore().ToString();
+		AdManager.Instance.ShowBanner();
 	}
 
 	public void OnClickPlay()
@@ -27,7 +28,6 @@ public class GameStartDialog : BaseDialog {
     public void OnClickShop()
     {
         StoreDialog dialog = GUIManager.Instance.OnShowDialog<StoreDialog>("Store");
-        this.OnCloseDialog();
     }
 
     public void OnClickLeaderBoard()

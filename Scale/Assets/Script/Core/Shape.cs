@@ -306,7 +306,7 @@ public class Shape : MonoBehaviour {
 		mesh.triangles = triangles;
 		mesh.uv = uv;
 		mf.mesh = mesh;
-		mr.material.color = new Color32(58, 59, 122, 255);
+		mr.material.color = new Color32(123, 58, 188, 255);
 	}
 
 	public float Area()
