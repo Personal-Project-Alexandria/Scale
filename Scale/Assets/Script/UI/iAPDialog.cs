@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class iAPDialog : BaseDialog {
 
+	public delegate void Transaction(); 
+
 	public void Buy1000Diamonds()
 	{
+		//NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_CONFIRM,
+		//	(Transaction)IAPManager.Instance.Buy1000Diamonds);
 		IAPManager.Instance.Buy1000Diamonds();
 	}
 

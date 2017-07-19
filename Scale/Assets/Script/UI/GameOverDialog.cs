@@ -9,17 +9,43 @@ public class GameOverDialog : BaseDialog {
 	public Text score;
 	public Text addedDiamond;
 	public Text diamond;
+	public Button soundButton;
+	public Button noAdsButton;
 
 	public override void OnShow(Transform transf, object data)
 	{
 		base.OnShow(transf, data);
 		SetAllText();
+		Setup();
 	}
 
 	public override void OnHide()
 	{
 		StopAllCoroutines();
 		base.OnHide();
+	}
+
+	public void Setup()
+	{
+		if (UserProfile.Instance.HasAds())
+		{
+			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.hasAds;
+			noAdsButton.interactable = true;
+		}
+		else
+		{
+			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.noAds;
+			noAdsButton.interactable = false;
+		}
+
+		if (SoundManager.Instance.IsBackgroundPlaying())
+		{
+			soundButton.GetComponent<Image>().sprite = UserProfile.Instance.hasSound;
+		}
+		else
+		{
+			soundButton.GetComponent<Image>().sprite = UserProfile.Instance.noSound;
+		}
 	}
 
 	public void SetAllText()
@@ -56,7 +82,7 @@ public class GameOverDialog : BaseDialog {
 
 	public void OnClickNoAds()
 	{
-
+		NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.NOADS, noAdsButton);
 	}
 
 	public void OnClickLeaderBoard()
@@ -66,11 +92,21 @@ public class GameOverDialog : BaseDialog {
 
 	public void OnClickSound()
 	{
-
+		SoundManager.Instance.ToggleMusic(!SoundManager.Instance.IsBackgroundPlaying());
+		if (SoundManager.Instance.IsBackgroundPlaying())
+		{
+			soundButton.GetComponent<Image>().sprite = UserProfile.Instance.hasSound;
+		}
+		else
+		{
+			soundButton.GetComponent<Image>().sprite = UserProfile.Instance.noSound;
+		}
 	}
 
 	public void OnClickShare()
 	{
 
 	}
+
+	
 }

@@ -16,7 +16,7 @@ public class AdManager : MonoSingleton<AdManager> {
 	private RewardBasedVideoAd rewardBasedVideo;
 
 	private int rewardType = 0; // 0 = move, 1 = health 
-	private const int RESPAWN_BANNER_TIME = 300;
+	private const int RESPAWN_BANNER_TIME = 60;
 	private float second;
 
 	//#if UNITY_ANDROID || UNITY_IOS

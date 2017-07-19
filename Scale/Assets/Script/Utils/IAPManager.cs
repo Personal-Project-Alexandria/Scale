@@ -107,6 +107,7 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 		// If Purchasing has not yet been set up ...
 		if (!IsInitialized())
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.RESTORE_PURCHASE, 1);
 			// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
 			Debug.Log("RestorePurchases FAIL. Not initialized.");
 			return;
@@ -128,10 +129,12 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 				// no purchases are available to be restored.
 				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
 			});
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.RESTORE_PURCHASE, 0);
 		}
 		// Otherwise ...
 		else
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.RESTORE_PURCHASE, 2);
 			// We are not running on an Apple device. No work is necessary to restore purchases.
 			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 		}
@@ -225,54 +228,67 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 	{
 		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_1000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(1000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_3500_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(3500);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_7000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(7000);
 		}
 		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_10000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(10000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_15000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(15000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_20000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(20000);
 		}
 		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_30000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(30000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_40000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(40000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_50000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(50000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_70000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(70000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_150000_DIAMOND, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.AddDiamond(150000);
 		}
 		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_NOADS, StringComparison.Ordinal))
 		{
+			NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_SUCCESS);
 			UserProfile.Instance.RemoveAds();
 		}
 		else
 		{
+			//NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_FAIL);
 			Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
 		}
 
@@ -281,6 +297,7 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
+		NotifyDialog notify = GUIManager.Instance.OnShowNotiFyDialog("Notify", NotifyType.TRANSACTION_FAIL);
 		Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
 	}
 }

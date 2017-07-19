@@ -22,7 +22,20 @@ public class GUIManager : MonoSingleton<GUIManager> {
         }
         return null;
     }
-    public void OnHideDialog(BaseDialog dialog)
+
+	public NotifyDialog OnShowNotiFyDialog(string path, NotifyType type, object data = null)
+	{
+		NotifyDialog target = ((GameObject)Instantiate(Resources.Load(path))).GetComponent<NotifyDialog>();
+		if (target != null)
+		{
+			target.gameObject.SetActive(true);
+			target.OnShow(this.transfDialog, data, type);
+			this.baseDialogs.Add(target);
+		}
+		return null;
+	}
+
+	public void OnHideDialog(BaseDialog dialog)
     {
         dialog.OnHide();
         if (this.baseDialogs.Contains(dialog))

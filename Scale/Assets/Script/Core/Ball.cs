@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class Ball : MonoSingleton<Ball> {
 
+	public SpriteRenderer sprite;
 	protected Rigidbody2D body;
 	protected Vector2 tempVelocity = Vector2.zero;
 	protected bool hit = false; 
 
-	protected void Start ()
+	protected void Awake ()
 	{
-		
+		sprite = GetComponent<SpriteRenderer>();
 	}
 
 	public void AddForce()
@@ -75,6 +76,7 @@ public class Ball : MonoSingleton<Ball> {
 
 	public void ScaleBall()
 	{
+		this.sprite.sprite = UserProfile.Instance.GetBallSprite();
 		int life = GameManager.Instance.life;
 
 		if (life == 3)
