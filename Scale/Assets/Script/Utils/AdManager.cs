@@ -51,14 +51,14 @@ public class AdManager : MonoSingleton<AdManager> {
 		Chartboost.didCompleteRewardedVideo += Chartboost_didCompleteRewardedVideo;
 
 #if UNITY_ANDROID
-		bannerId = "ca-app-pub-8138314746899986/1208976754";
-		videoId = "ca-app-pub-8138314746899986/2685709956";
-		rewardId = "ca-app-pub-8138314746899986/5639176353";
+		bannerId = "ca-app-pub-8138314746899986/1452225155";
+		videoId = "ca-app-pub-8138314746899986/2928958354";
+		rewardId = "ca-app-pub-8138314746899986/5882424756";
 
 #elif UNITY_IOS
-		bannerId = "ca-app-pub-8138314746899986/7395111158";
-		videoId = "ca-app-pub-8138314746899986/1348577550";
-		rewardId = "ca-app-pub-8138314746899986/4302043958";
+		bannerId = "ca-app-pub-8138314746899986/1591825952";
+		videoId = "ca-app-pub-8138314746899986/4545292358";
+		rewardId = "ca-app-pub-8138314746899986/6022025552";
 #endif
 	}
 

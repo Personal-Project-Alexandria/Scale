@@ -9,19 +9,18 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 	private static IStoreController m_StoreController;          // The Unity Purchasing system.
 	private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
 
-	//private static string PRODUCT_30_DIAMOND = "com.quoclv.bestgame.jexy.diamond_0";
-	//private static string PRODUCT_60_DIAMOND = "com.quoclv.bestgame.jexy.diamond_1";
-	//private static string PRODUCT_120_DIAMOND = "com.quoclv.bestgame.jexy.diamond_2";
-	//private static string PRODUCT_240_DIAMOND = "com.quoclv.bestgame.jexy.diamond_3";
-	//private static string PRODUCT_360_DIAMOND = "com.quoclv.bestgame.jexy.diamond_4";
-	//private static string PRODUCT_480_DIAMOND = "com.quoclv.bestgame.jexy.diamond_5";
-	//private static string PRODUCT_600_DIAMOND = "com.quoclv.bestgame.jexy.diamond_6";
-	//private static string PRODUCT_720_DIAMOND = "com.quoclv.bestgame.jexy.diamond_7";
-	//private static string PRODUCT_840_DIAMOND = "com.quoclv.bestgame.jexy.diamond_8";
-	//private static string PRODUCT_960_DIAMOND = "com.quoclv.bestgame.jexy.diamond_9";
-	//private static string PRODUCT_1080_DIAMOND = "com.quoclv.bestgame.jexy.diamond_10";
-	//private static string PRODUCT_2000_DIAMOND = "com.quoclv.bestgame.jexy.diamond_full";
-	//private static string PRODUCT_NOADS = "com.quoclv.bestgame.jexy.noads";
+	private static string PRODUCT_1000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_0";
+	private static string PRODUCT_3500_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_1";
+	private static string PRODUCT_7000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_2";
+	private static string PRODUCT_10000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_3";
+	private static string PRODUCT_15000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_4";
+	private static string PRODUCT_20000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_5";
+	private static string PRODUCT_30000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_6";
+	private static string PRODUCT_40000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_7";
+	private static string PRODUCT_50000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_8";
+	private static string PRODUCT_70000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_9";
+	private static string PRODUCT_150000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_10";
+	private static string PRODUCT_NOADS = "com.quoclv.bestgame.scalecolor.noads";
 
 	void Start()
 	{
@@ -46,19 +45,18 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
 
-		//builder.AddProduct(PRODUCT_30_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_60_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_120_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_240_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_360_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_480_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_600_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_720_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_840_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_960_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_1080_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_2000_DIAMOND, ProductType.Consumable);
-		//builder.AddProduct(PRODUCT_NOADS, ProductType.NonConsumable);
+		builder.AddProduct(PRODUCT_1000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_3500_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_7000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_10000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_15000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_20000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_30000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_40000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_50000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_70000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_150000_DIAMOND, ProductType.Consumable);
+		builder.AddProduct(PRODUCT_NOADS, ProductType.NonConsumable);
 
 		// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
 		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
@@ -141,70 +139,65 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 
 	/* ------------------------------------------ BUY HERE ------------------------------------------ */
 
-	//public void Buy30Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_30_DIAMOND);
-	//}
+	public void Buy1000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_1000_DIAMOND);
+	}
 
-	//public void Buy60Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_60_DIAMOND);
-	//}
+	public void Buy3500Diamonds()
+	{
+		this.BuyProductID(PRODUCT_3500_DIAMOND);
+	}
 
-	//public void Buy120Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_120_DIAMOND);
-	//}
+	public void Buy7000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_7000_DIAMOND);
+	}
 
-	//public void Buy240Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_240_DIAMOND);
-	//}
+	public void Buy10000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_10000_DIAMOND);
+	}
 
-	//public void Buy360Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_360_DIAMOND);
-	//}
+	public void Buy15000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_15000_DIAMOND);
+	}
 
-	//public void Buy480Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_480_DIAMOND);
-	//}
+	public void Buy20000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_20000_DIAMOND);
+	}
 
-	//public void Buy600Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_600_DIAMOND);
-	//}
+	public void Buy30000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_30000_DIAMOND);
+	}
 
-	//public void Buy720Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_720_DIAMOND);
-	//}
+	public void Buy40000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_40000_DIAMOND);
+	}
 
-	//public void Buy840Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_840_DIAMOND);
-	//}
+	public void Buy50000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_50000_DIAMOND);
+	}
 
-	//public void Buy960Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_960_DIAMOND);
-	//}
+	public void Buy70000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_70000_DIAMOND);
+	}
 
-	//public void Buy1080Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_1080_DIAMOND);
-	//}
+	public void Buy150000Diamonds()
+	{
+		this.BuyProductID(PRODUCT_150000_DIAMOND);
+	}
 
-	//public void Buy2000Diamonds()
-	//{
-	//	this.BuyProductID(PRODUCT_2000_DIAMOND);
-	//}
-
-	//public void BuyNoAds()
-	//{
-	//	this.BuyProductID(PRODUCT_NOADS);
-	//}
+	public void BuyNoAds()
+	{
+		this.BuyProductID(PRODUCT_NOADS);
+	}
 
 
 	//  
@@ -230,63 +223,58 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args)
 	{
-		//if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_30_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(30, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_60_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(60, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_120_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(120, true);
-		//}
-		//if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_240_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(240, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_360_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(360, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_480_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(480, true);
-		//}
-		//if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_600_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(600, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_720_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(720, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_840_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(840, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_960_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(960, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_1080_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(1080, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_2000_DIAMOND, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.AddDiamond(2000, true);
-		//}
-		//else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_NOADS, StringComparison.Ordinal))
-		//{
-		//	UserProfile.Instance.RemoveAds();
-		//	Analytics.Instance.a.LogEvent(new EventHitBuilder().SetEventCategory("Buy").SetEventAction("Buy Remove Ads"));
-		//}
-		//else
-		//{
-		//	Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
-		//}
+		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_1000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(1000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_3500_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(3500);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_7000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(7000);
+		}
+		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_10000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(10000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_15000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(15000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_20000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(20000);
+		}
+		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_30000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(30000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_40000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(40000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_50000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(50000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_70000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(70000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_150000_DIAMOND, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.AddDiamond(150000);
+		}
+		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_NOADS, StringComparison.Ordinal))
+		{
+			UserProfile.Instance.RemoveAds();
+		}
+		else
+		{
+			Debug.Log(string.Format("ProcessPurchase: FAIL. Unrecognized product: '{0}'", args.purchasedProduct.definition.id));
+		}
 
 		return PurchaseProcessingResult.Complete;
 	}

@@ -31,4 +31,10 @@ public class PauseDialog : BaseDialog {
 		GameManager.Instance.ContinueGame();
 		this.OnHide();
 	}
+
+	public void OnClickHome()
+	{
+		GameManager.Instance.QuitGame();
+		this.OnHide();
+	}
 }

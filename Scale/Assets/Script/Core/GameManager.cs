@@ -74,7 +74,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		ExtraLifeDialog extraLifeDialog = GUIManager.Instance.OnShowDialog<ExtraLifeDialog>("ExtraLife");
 	}
 
-	public void GameOver()
+	public void GameOver(bool quit = false)
 	{
 		EndGame();
 
@@ -85,6 +85,15 @@ public class GameManager : MonoSingleton<GameManager> {
 		AdManager.Instance.ShowVideo();
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
+	}
+
+	public void QuitGame()
+	{
+		EndGame();
+
+		AdManager.Instance.ShowVideo();
+
+		GameStartDialog start = GUIManager.Instance.OnShowDialog<GameStartDialog>("Start");
 	}
 
 	public void ContinueOnLose()

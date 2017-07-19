@@ -66,6 +66,11 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	{
 		return this.diamond;
 	}
+	[ContextMenu("Clear Diamond - test only")]
+	public void ClearDiamond()
+	{
+		ReduceDiamond(GetDiamond());
+	}
 
 	// Ads function
 	public void RemoveAds()
