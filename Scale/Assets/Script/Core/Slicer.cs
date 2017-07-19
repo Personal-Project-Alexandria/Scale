@@ -12,6 +12,7 @@ public class Slicer : MonoSingleton<Slicer> {
 	public Sprite corner;
 	public Sprite straigth;
 	public GameObject rotateTip;
+	public bool rotate;
 
 	[HideInInspector]
 	public float area;
@@ -32,6 +33,8 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	public void Create()
 	{
+		rotate = true;
+
 		this.type = (SliceType)Random.Range(0, 2);
 		this.sprite.transform.rotation = Quaternion.identity;
 
@@ -53,6 +56,12 @@ public class Slicer : MonoSingleton<Slicer> {
 			first.Create(LineDirection.LEFT, this);
 			second.Create(LineDirection.RIGHT, this);
 		}
+
+		int rotateTime = Random.Range(0, 4);
+		for (int i = 0; i < rotateTime; i++)
+		{
+			Rotate();
+		}
 	}
 
 	public void Reload()
@@ -60,15 +69,32 @@ public class Slicer : MonoSingleton<Slicer> {
 		this.Create();
 		first.gameObject.SetActive(false);
 		second.gameObject.SetActive(false);
+		rotate = RandomRotate();
 		ShowRotateTip();
+	}
+
+	public bool RandomRotate()
+	{
+		int rand = Random.Range(0, 100);
+		if (rand < 50)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public void Rotate()
 	{
-		first.Rotate();
-		second.Rotate();
+		if (rotate == true)
+		{
+			first.Rotate();
+			second.Rotate();
 
-		sprite.transform.Rotate(new Vector3(0, 0, -90));
+			sprite.transform.Rotate(new Vector3(0, 0, -90));
+		}	
 	}
 
 	public void Grow(float v)
@@ -215,7 +241,7 @@ public class Slicer : MonoSingleton<Slicer> {
 			Grow(Time.deltaTime * 1.5f);
 		} 
 
-		if (rotateTip.activeInHierarchy)
+		if (rotateTip.activeInHierarchy && this.rotate)
 		{
 			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
 		}
