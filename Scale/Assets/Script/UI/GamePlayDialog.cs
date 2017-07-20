@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GamePlayDialog : BaseDialog
 {
+    public Transform panelAnchor;
 	public override void OnShow(Transform transf, object data)
 	{
 		base.OnShow(transf, data);
