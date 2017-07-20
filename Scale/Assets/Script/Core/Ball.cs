@@ -43,13 +43,20 @@ public class Ball : MonoSingleton<Ball> {
 		tempVelocity = Vector2.zero;
 	}
 
-	public void Restart()
+	public void Restart(bool onLose = false)
 	{
 		ScaleBall();
-		transform.position = Vector3.zero;
-		tempVelocity = Vector2.zero;
-		StopForce();
-		AddForce();
+		if (!onLose)
+		{
+			transform.position = Vector3.zero;
+			tempVelocity = Vector2.zero;
+			StopForce();
+			AddForce();
+		}
+		else
+		{
+			Continue();
+		}
 	}
 
 	public void OnHit()

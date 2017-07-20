@@ -110,7 +110,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		if (slicer.gameObject.activeInHierarchy && ball.gameObject.activeInHierarchy)
 		{
 			life = DEFAULT_LIFE;
-			ball.Restart();
+			ball.Restart(true);
 			slicer.Restart(true);
 		}
 	}

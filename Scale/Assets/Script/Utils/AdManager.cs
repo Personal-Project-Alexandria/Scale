@@ -46,6 +46,8 @@ public class AdManager : MonoSingleton<AdManager> {
 	{
 		DontDestroyOnLoad(gameObject);
 
+		Chartboost.Create();
+		Chartboost.setAutoCacheAds(true);
 		Chartboost.cacheInterstitial(CBLocation.HomeScreen);
 		Chartboost.cacheRewardedVideo(CBLocation.HomeScreen);
 		Chartboost.didCompleteRewardedVideo += Chartboost_didCompleteRewardedVideo;
