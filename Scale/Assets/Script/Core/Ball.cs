@@ -16,7 +16,7 @@ public class Ball : MonoSingleton<Ball> {
 
 	public void AddForce()
 	{
-		//body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200);
+		body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200);
 	}
 
 	public void StopForce()
