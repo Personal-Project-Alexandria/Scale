@@ -10,7 +10,9 @@ public class Slicer : MonoSingleton<Slicer> {
 	public SliceType type = SliceType.STRAIGHT;
 	public SpriteRenderer sprite;
 	public Sprite corner;
-	public Sprite straigth;
+	public Sprite cornerOut;
+	public Sprite straight;
+	public Sprite straightOut;
 	public GameObject rotateTip;
 	public bool rotate;
 
@@ -26,6 +28,7 @@ public class Slicer : MonoSingleton<Slicer> {
 
 	protected void Start()
 	{
+		sprite.color = new Color32(255, 255, 255, 170);
 		//destroyArea = 0;
 		//transform.position = start;
 		//Reload();
@@ -52,7 +55,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		}
 		else
 		{
-			this.sprite.sprite = straigth;
+			this.sprite.sprite = straight;
 			first.Create(LineDirection.LEFT, this);
 			second.Create(LineDirection.RIGHT, this);
 		}
@@ -245,6 +248,39 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
 		}
+
+		Shape shape = FindObjectOfType<Shape>(); // Cheat here
+
+		float width = linePrefab.GetComponent<LineRenderer>().startWidth * 5f;
+
+		Vector3 tl, tr, bl, br;
+		tl = transform.position + new Vector3(-width / 1.5f, width);
+		tr = transform.position + new Vector3(width / 1.5f, width);
+		bl = transform.position + new Vector3(-width / 1.5f, -0);
+		br = transform.position + new Vector3(width / 1.5f, -0);
+
+		if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
+		{
+			if (type == SliceType.STRAIGHT)
+			{
+				sprite.sprite = straight;
+			}
+			else
+			{
+				sprite.sprite = corner;
+			}
+		}
+		else
+		{
+			if (type == SliceType.STRAIGHT)
+			{
+				sprite.sprite = straightOut;
+			}
+			else
+			{
+				sprite.sprite = cornerOut;
+			}
+		}
 	}
 
 	protected void OnMouseDown()
@@ -253,8 +289,8 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			return;
 		}
-
-		if (!grow && !down)
+	
+		if (!grow && !down && !GameManager.Instance.inScale)
 		{
 			this.down = true;
 
@@ -270,7 +306,7 @@ public class Slicer : MonoSingleton<Slicer> {
 			return;
 		}
 
-		if (!this.grow && down)
+		if (!this.grow && down && !GameManager.Instance.inScale)
 		{
 			HideRotateTip();
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
@@ -285,20 +321,20 @@ public class Slicer : MonoSingleton<Slicer> {
 			return;
 		}
 
-		if (down && !this.grow)
+		if (down && !this.grow && !GameManager.Instance.inScale)
 		{
-			BoxCollider2D box = GetComponent<BoxCollider2D>();
+			//BoxCollider2D box = GetComponent<BoxCollider2D>();
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
 
-			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 1.5f;
+			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 5f;
 
 			Vector3 tl, tr, bl, br;
-			tl = transform.position + new Vector3(-width, width);
-			tr = transform.position + new Vector3(width, width);
-			bl = transform.position + new Vector3(-width, -width);
-			br = transform.position + new Vector3(width, -width);
-
-			if (shape.PointInShape(tl) && shape.PointInShape(tr) && shape.PointInShape(bl) && shape.PointInShape(br))
+			tl = transform.position + new Vector3(-width / 1.5f, width);
+			tr = transform.position + new Vector3(width / 1.5f, width);
+			bl = transform.position + new Vector3(-width / 1.5f, -0);
+			br = transform.position + new Vector3(width / 1.5f, -0);
+			
+			if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
 			{
 				this.grow = true;
 			}

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameManager : MonoSingleton<GameManager> {
 
 	private const int DEFAULT_LIFE = 3;
+	public bool inScale = false; 
 
 	public float goalPercent = 0.5f;
 	public GameObject shapePrefab;
@@ -24,8 +25,10 @@ public class GameManager : MonoSingleton<GameManager> {
             if (this.gameAnchor.position.y != gamePlay.panelAnchor.position.y)
                 this.gameAnchor.position = new Vector3(0, gamePlay.panelAnchor.position.y, 90);
     }
+
     public void StartGame()
 	{
+		AdManager.Instance.ShowBanner();
 		life = DEFAULT_LIFE;
 		level = 1;
 		percent = 0f;
@@ -53,12 +56,14 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public void ContinueGame()
 	{
+		AdManager.Instance.ShowBanner();
 		slicer.Continue();
 		ball.Continue();
 	}
 
 	public void RestartGame()
 	{
+		AdManager.Instance.ShowBanner();
 		life = DEFAULT_LIFE;
 		level = 1;
 		percent = 0;
@@ -107,6 +112,7 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public void ContinueOnLose()
 	{
+		AdManager.Instance.ShowBanner();
 		if (slicer.gameObject.activeInHierarchy && ball.gameObject.activeInHierarchy)
 		{
 			life = DEFAULT_LIFE;

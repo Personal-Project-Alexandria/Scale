@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using GoogleMobileAds.Api;
 using UnityEngine;
-using ChartboostSDK;
 
 public class AdManager : MonoSingleton<AdManager> {
 	
@@ -16,8 +15,12 @@ public class AdManager : MonoSingleton<AdManager> {
 	private RewardBasedVideoAd rewardBasedVideo;
 
 	private int rewardType = 0; // 0 = move, 1 = health 
-	private const int RESPAWN_BANNER_TIME = 60;
+	private const int RESPAWN_BANNER_TIME = 30;
 	private float second;
+
+	// Internet state
+	//private bool internetStateChanged = false;
+	private NetworkReachability internetState;
 
 	//#if UNITY_ANDROID || UNITY_IOS
 
@@ -29,28 +32,32 @@ public class AdManager : MonoSingleton<AdManager> {
 		LoadRewardedVideo();
 
 		second = RESPAWN_BANNER_TIME;
+		internetState = Application.internetReachability;
+
 	}
 
 	protected void Update()
 	{
-		// Show ads every 5 minute = 300 seconds
-		second += Time.deltaTime;
-		if (second >= RESPAWN_BANNER_TIME)
+		// Show ads every 30 seconds
+		//second += Time.deltaTime;
+		//if (second >= RESPAWN_BANNER_TIME)
+		//{
+		//	ShowBanner();
+		//	second = 0f;
+		//}
+
+		if (internetState != Application.internetReachability)
 		{
-			ShowBanner();
-			second = 0f;
+			this.bannerView.LoadAd(new AdRequest.Builder().Build());
+			this.interstitial.LoadAd(new AdRequest.Builder().Build());
+			this.rewardBasedVideo.LoadAd(new AdRequest.Builder().Build(), rewardId);
+			internetState = Application.internetReachability;
 		}
 	}
 
 	public void Initialize()
 	{
 		DontDestroyOnLoad(gameObject);
-
-		Chartboost.Create();
-		Chartboost.setAutoCacheAds(true);
-		Chartboost.cacheInterstitial(CBLocation.HomeScreen);
-		Chartboost.cacheRewardedVideo(CBLocation.HomeScreen);
-		Chartboost.didCompleteRewardedVideo += Chartboost_didCompleteRewardedVideo;
 
 #if UNITY_ANDROID
 		bannerId = "ca-app-pub-8138314746899986/1452225155";
@@ -63,20 +70,7 @@ public class AdManager : MonoSingleton<AdManager> {
 		rewardId = "ca-app-pub-8138314746899986/6022025552";
 #endif
 	}
-
-	private void Chartboost_didCompleteRewardedVideo(CBLocation arg1, int arg2)
-	{
-		if (this.rewardType == 0)
-		{
-			
-		}
-		else if (this.rewardType == 1)
-		{
-			
-		}
-
-		throw new System.NotImplementedException();
-	}
+	
 
 	/* ------------------------------- BANNER ---------------------------------*/
 
@@ -121,8 +115,6 @@ public class AdManager : MonoSingleton<AdManager> {
 
 		this.rewardBasedVideo.OnAdClosed += this.OnCloseRewardVideoHandle;
 
-		//this.rewardBasedVideo.OnAdRewarded += this.OnGetRewardHandle;
-
 		this.rewardBasedVideo.LoadAd(new AdRequest.Builder().Build(), rewardId);
 	}
 
@@ -144,14 +136,6 @@ public class AdManager : MonoSingleton<AdManager> {
 				}
 
 				this.rewardBasedVideo.Show();
-			}
-			else if (Chartboost.hasRewardedVideo(CBLocation.HomeScreen))
-			{
-				Chartboost.showRewardedVideo(CBLocation.HomeScreen);
-			}
-			else
-			{
-				Chartboost.cacheRewardedVideo(CBLocation.HomeScreen);
 			}
 		}
 	}
@@ -180,8 +164,7 @@ public class AdManager : MonoSingleton<AdManager> {
 
 	public bool IsRewardedVideoLoaded()
 	{
-		return (this.rewardBasedVideo.IsLoaded() || Chartboost.hasRewardedVideo(CBLocation.HomeScreen)) 
-			&& Application.internetReachability != NetworkReachability.NotReachable;
+		return (this.rewardBasedVideo.IsLoaded() && Application.internetReachability != NetworkReachability.NotReachable);
 	}
 
 	/* ---------------------------- INTERSTITIAL ------------------------------*/
@@ -202,14 +185,6 @@ public class AdManager : MonoSingleton<AdManager> {
 			if (this.interstitial.IsLoaded())
 			{
 				this.interstitial.Show();
-			}
-			else if (Chartboost.hasInterstitial(CBLocation.HomeScreen))
-			{
-				Chartboost.showInterstitial(CBLocation.HomeScreen);
-			}
-			else
-			{
-				Chartboost.cacheInterstitial(CBLocation.HomeScreen);
 			}
 		}
 	}

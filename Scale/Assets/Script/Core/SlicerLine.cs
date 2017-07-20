@@ -95,6 +95,7 @@ public class SlicerLine : Line {
 		{
 			wait = true;
 			line = col.GetComponent<Line>();
+			Debug.Log(line.direction);
 			Slicer.Instance.Slice();
 		}
 

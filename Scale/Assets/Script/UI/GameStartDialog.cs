@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using ChartboostSDK;
 
 public class GameStartDialog : BaseDialog {
 
@@ -54,15 +53,7 @@ public class GameStartDialog : BaseDialog {
 
     public void OnClickShare()
     {
-		Debug.Log("HERE");
-		if (Chartboost.hasInterstitial(CBLocation.Default))
-		{
-			Chartboost.showInterstitial(CBLocation.Default);
-		}
-		else
-		{
-			Chartboost.cacheInterstitial(CBLocation.Default);
-		}
+	
 	}
 
     public void OnClickShop()
@@ -72,15 +63,6 @@ public class GameStartDialog : BaseDialog {
 
     public void OnClickLeaderBoard()
 	{
-		Debug.Log("HERE 2");
-		if (Chartboost.hasRewardedVideo(CBLocation.Default))
-		{
-			Chartboost.showRewardedVideo(CBLocation.Default);
-		}
-		else
-		{
-			Chartboost.cacheRewardedVideo(CBLocation.Default);
-		}
 	}
 
 	public void OnClickSound()

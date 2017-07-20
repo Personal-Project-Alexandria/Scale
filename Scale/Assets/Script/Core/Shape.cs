@@ -61,6 +61,7 @@ public class Shape : MonoBehaviour {
 
 	public IEnumerator ScaleInAction(Vector3 center, float scale)
 	{
+		GameManager.Instance.inScale = true;
 		Ball.Instance.StopForce();
 
 		float curScale = 1;
@@ -130,6 +131,7 @@ public class Shape : MonoBehaviour {
 		Ball.Instance.AddForce();
 
 		GameManager.Instance.NextLevel();
+		GameManager.Instance.inScale = false;
 	}
 
 	public void ScaleImmediate()
@@ -238,6 +240,8 @@ public class Shape : MonoBehaviour {
 		return inside;
 	}
 
+	// ------------------------------ CHECK POLYGON --------------------------------- //
+
 	public bool PointInShape(Vector3 p)
 	{
 		Vector3 p1, p2;
@@ -279,6 +283,98 @@ public class Shape : MonoBehaviour {
 
 		return inside;
 	}
+
+	public bool IsPointInPolygon(Vector3 point/*, List<Vector3> polygon*/)
+	{
+		int polygonLength = points.Count, i = 0;
+		bool inside = false;
+		// x, y for tested point.
+		float pointX = point.x, pointY = point.y;
+		// start / end point for the current polygon segment.
+		float startX, startY, endX, endY;
+		Vector3 endPoint = points[polygonLength - 1];
+		endX = endPoint.x;
+		endY = endPoint.y;
+		while (i < polygonLength)
+		{
+			startX = endX; startY = endY;
+			endPoint = points[i++];
+			endX = endPoint.x; endY = endPoint.y;
+			//
+			inside ^= (endY > pointY ^ startY > pointY) /* ? pointY inside [startY;endY] segment ? */
+					  && /* if so, test if it is under the segment */
+					  ((pointX - endX) < (pointY - endY) * (startX - endX) / (startY - endY));
+		}
+		return inside;
+	}
+
+	// Return True if the point is in the polygon.
+	public bool PointInPolygon(Vector3 p)
+	{
+		// Get the angle between the point and the
+		// first and last vertices.
+		int max_point = points.Count - 1;
+		float total_angle = GetAngle(
+			points[max_point].x, points[max_point].y,
+			p.x, p.y,
+			points[0].x, points[0].y);
+
+		// Add the angles from the point
+		// to each other pair of vertices.
+		for (int i = 0; i < max_point; i++)
+		{
+			total_angle += GetAngle(
+				points[i].x, points[i].y,
+				p.x, p.y,
+				points[i + 1].x, points[i + 1].y);
+		}
+
+		// The total angle should be 2 * PI or -2 * PI if
+		// the point is in the polygon and close to zero
+		// if the point is outside the polygon.
+		return (System.Math.Abs(total_angle) > 0.000001);
+	}
+
+	public static float GetAngle(float Ax, float Ay,
+	float Bx, float By, float Cx, float Cy)
+	{
+		// Get the dot product.
+		float dot_product = DotProduct(Ax, Ay, Bx, By, Cx, Cy);
+
+		// Get the cross product.
+		float cross_product = CrossProductLength(Ax, Ay, Bx, By, Cx, Cy);
+
+		// Calculate the angle.
+		return (float)System.Math.Atan2(cross_product, dot_product);
+	}
+
+	private static float DotProduct(float Ax, float Ay,
+	float Bx, float By, float Cx, float Cy)
+	{
+		// Get the vectors' coordinates.
+		float BAx = Ax - Bx;
+		float BAy = Ay - By;
+		float BCx = Cx - Bx;
+		float BCy = Cy - By;
+
+		// Calculate the dot product.
+		return (BAx * BCx + BAy * BCy);
+	}
+
+	public static float CrossProductLength(float Ax, float Ay,
+	float Bx, float By, float Cx, float Cy)
+	{
+		// Get the vectors' coordinates.
+		float BAx = Ax - Bx;
+		float BAy = Ay - By;
+		float BCx = Cx - Bx;
+		float BCy = Cy - By;
+
+		// Calculate the Z coordinate of the cross product.
+		return (BAx * BCy - BAy * BCx);
+	}
+
+	// --------------------------------------------------------------------------------//
 
 	public void RenderMesh(List<Vector3> points3)
 	{
