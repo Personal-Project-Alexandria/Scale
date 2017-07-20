@@ -351,9 +351,13 @@ public class Slicer : MonoSingleton<Slicer> {
 		this.paused = false;
 	}
 
-	public void Restart()
+	public void Restart(bool onLose = false)
 	{
-		destroyArea = 0;
+		if (!onLose)
+		{
+			destroyArea = 0;
+		}
+		
 		transform.position = start;
 		ClearLine();
 		paused = false;

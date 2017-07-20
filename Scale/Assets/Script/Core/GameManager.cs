@@ -111,7 +111,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		{
 			life = DEFAULT_LIFE;
 			ball.Restart();
-			slicer.Restart();
+			slicer.Restart(true);
 		}
 	}
 
