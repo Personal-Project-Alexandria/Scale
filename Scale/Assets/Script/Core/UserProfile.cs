@@ -133,7 +133,7 @@ public class UserProfile : MonoSingleton<UserProfile> {
 		this.diamond = 0;
 		this.ads = true;
 
-		// Ball involves
+		//Ball involves
 		this.balls = new List<bool>();
 		for (int i = 0; i < ITEM_COUNT; i++)
 		{

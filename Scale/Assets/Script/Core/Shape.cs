@@ -59,14 +59,37 @@ public class Shape : MonoBehaviour {
 		StartCoroutine(ScaleInAction(this.Center, CalculateScale()));
 	}
 
-	public IEnumerator ScaleInAction(Vector3 center, float scale)
+	public IEnumerator ScaleInAction(Vector3 center, float scale, bool group = false)
 	{
 		GameManager.Instance.inScale = true;
-		Ball.Instance.StopForce();
+
+		if (!group)
+		{
+			Ball.Instance.StopForce();
+		}
+		else
+		{
+			GameManager.Instance.ballManager.StopForce();
+		}
+		
 
 		float curScale = 1;
 		float curPoint = 0;
+
 		Vector3 ori = Ball.Instance.transform.position;
+
+		// ---->> Add balls list position here
+		List<Vector3> oris = new List<Vector3>();
+		List<BaseBall> balls = new List<BaseBall>();
+
+		if (group)
+		{
+			balls = GameManager.Instance.ballManager.GetBallList();
+			for (int i = 0; i < balls.Count; i++)
+			{
+				oris.Add(balls[i].transform.position);
+			}
+		}
 
 		while (curScale < scale || curPoint < 1f)
 		{
@@ -86,7 +109,17 @@ public class Shape : MonoBehaviour {
 
 			points.RemoveAt(points.Count - 1);
 
-			Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
+			if (!group)
+			{
+				Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
+			}
+			else
+			{
+				for (int i = 0; i < balls.Count; i++)
+				{
+					balls[i].transform.position = (oris[i] - center * curPoint) * curScale;
+				}
+			}
 
 			RenderMesh(points3);
 
@@ -126,9 +159,20 @@ public class Shape : MonoBehaviour {
 
 		Slicer.Instance.area = this.Area();
 
-		Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
+		if (!group)
+		{
+			Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
 
-		Ball.Instance.AddForce();
+			Ball.Instance.AddForce();
+		}
+		else
+		{
+			for (int i = 0; i < balls.Count; i++)
+			{
+				balls[i].transform.position = (oris[i] - center * curPoint) * curScale;
+				balls[i].AddForce();
+			}
+		}
 
 		GameManager.Instance.NextLevel();
 		GameManager.Instance.inScale = false;

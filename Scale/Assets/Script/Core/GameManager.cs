@@ -18,6 +18,8 @@ public class GameManager : MonoSingleton<GameManager> {
 	public float percent;
 	public GamePlayDialog gamePlay;
     public Transform gameAnchor;
+	public BallManager ballManager;
+	public SlicerManager slicerManager;
 
     public void Update()
     {
@@ -140,5 +142,32 @@ public class GameManager : MonoSingleton<GameManager> {
 		}
 
 		return shape;
+	}
+
+
+	// 3 balls test mode
+	[ContextMenu("Start 3 balls")]
+	public void StartMultipleBalls()
+	{
+		ballManager.Init(3);
+		life = DEFAULT_LIFE;
+		level = 1;
+		percent = 0f;
+		shape = MakeShape(null, true);
+		ballManager.OnStart();
+	}
+
+	// 3 balls test mode
+	[ContextMenu("Start 3 slicers")]
+	public void StartMultipleSlicer()
+	{
+		slicerManager.Init(3);
+		life = DEFAULT_LIFE;
+		level = 1;
+		percent = 0f;
+		shape = MakeShape(null, true);
+		ball.gameObject.SetActive(true);
+		ball.OnStart();
+		slicerManager.OnStart();
 	}
 }

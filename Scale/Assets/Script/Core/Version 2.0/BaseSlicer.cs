@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Slicer : MonoSingleton<Slicer> {
+public enum SliceType { STRAIGHT, CORNER }
+
+public class BaseSlicer : MonoBehaviour {
 
 	public GameObject linePrefab;
 	public SliceType type = SliceType.STRAIGHT;
@@ -17,8 +19,8 @@ public class Slicer : MonoSingleton<Slicer> {
 	[HideInInspector]
 	public float area;
 
-	private SlicerLine first;
-	private SlicerLine second;
+	private BaseSlicerLine first;
+	private BaseSlicerLine second;
 	private float destroyArea;
 	private bool paused = false;
 	protected Shape shape_one;
@@ -42,8 +44,8 @@ public class Slicer : MonoSingleton<Slicer> {
 		GameObject firstLine = Instantiate(linePrefab, transform.position, Quaternion.identity, transform);
 		GameObject secondLine = Instantiate(linePrefab, transform.position, Quaternion.identity, transform);
 
-		first = firstLine.GetComponent<SlicerLine>();
-		second = secondLine.GetComponent<SlicerLine>();
+		first = firstLine.GetComponent<BaseSlicerLine>();
+		second = secondLine.GetComponent<BaseSlicerLine>();
 
 		if (this.type == SliceType.CORNER)
 		{
@@ -95,7 +97,7 @@ public class Slicer : MonoSingleton<Slicer> {
 			second.Rotate();
 
 			sprite.transform.Rotate(new Vector3(0, 0, -90));
-		}	
+		}
 	}
 
 	public void Grow(float v)
@@ -123,7 +125,7 @@ public class Slicer : MonoSingleton<Slicer> {
 
 			list_one.Add(first.info.addedPoint);
 			list_two.Add(second.info.addedPoint);
-			
+
 			if (this.type == SliceType.CORNER)
 			{
 				list_one.Add(first.start);
@@ -151,7 +153,7 @@ public class Slicer : MonoSingleton<Slicer> {
 				Clear(0);
 			}
 		}
-	}	
+	}
 
 	void Clear(int index)
 	{
@@ -240,14 +242,14 @@ public class Slicer : MonoSingleton<Slicer> {
 		if (this.grow)
 		{
 			Grow(Time.deltaTime * 1.5f);
-		} 
+		}
 
 		if (rotateTip.activeInHierarchy)
 		{
 			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
 		}
 
-		Shape shape = FindObjectOfType<Shape>(); // Cheat here
+		Shape shape = GameManager.Instance.shape;
 
 		float width = linePrefab.GetComponent<LineRenderer>().startWidth * 5f;
 
@@ -287,7 +289,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			return;
 		}
-	
+
 		if (!grow && !down && !GameManager.Instance.inScale)
 		{
 			this.down = true;
@@ -331,7 +333,7 @@ public class Slicer : MonoSingleton<Slicer> {
 			tr = transform.position + new Vector3(width, width);
 			bl = transform.position + new Vector3(-width, -width);
 			br = transform.position + new Vector3(width, -width);
-			
+
 			if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
 			{
 				this.grow = true;
@@ -342,7 +344,7 @@ public class Slicer : MonoSingleton<Slicer> {
 				{
 					this.Rotate();
 				}
-			
+
 				this.transform.position = start;
 				ShowRotateTip();
 			}
@@ -391,7 +393,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			destroyArea = 0;
 		}
-		
+
 		transform.position = start;
 		ClearLine();
 		paused = false;
