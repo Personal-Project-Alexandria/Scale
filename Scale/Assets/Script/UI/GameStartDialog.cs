@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Facebook.Unity;
 
 public class GameStartDialog : BaseDialog {
 
 	public Text highScore;
 	public Button noAdsButton;
 	public Button soundButton;
-	
+
 	public override void OnShow(Transform transf, object data)
 	{
 		base.OnShow(transf, data);
@@ -53,7 +54,7 @@ public class GameStartDialog : BaseDialog {
 
     public void OnClickShare()
     {
-	
+		FBManager.Instance.Login();
 	}
 
     public void OnClickShop()

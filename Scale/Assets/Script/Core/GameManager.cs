@@ -21,9 +21,9 @@ public class GameManager : MonoSingleton<GameManager> {
 
     public void Update()
     {
-        if (gamePlay != null)
-            if (this.gameAnchor.position.y != gamePlay.panelAnchor.position.y)
-                this.gameAnchor.position = new Vector3(0, gamePlay.panelAnchor.position.y, 90);
+        //if (gamePlay != null)
+        //    if (this.gameAnchor.position.y != gamePlay.panelAnchor.position.y)
+        //        this.gameAnchor.position = new Vector3(0, gamePlay.panelAnchor.position.y, 90);
     }
 
     public void StartGame()
@@ -124,7 +124,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	public Shape MakeShape(List<Vector3> points = null, bool scale = false)
 	{
 		GameObject shapeObject = Instantiate(shapePrefab, null) as GameObject;
-        shapeObject.transform.position = new Vector3(0, this.gamePlay.panelAnchor.position.y, 0);
+        //shapeObject.transform.position = new Vector3(0, this.gamePlay.panelAnchor.position.y, 0);
 		Shape shape = shapeObject.GetComponent<Shape>();
 
 		if (points != null)

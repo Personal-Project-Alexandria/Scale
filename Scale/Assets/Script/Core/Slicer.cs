@@ -326,13 +326,13 @@ public class Slicer : MonoSingleton<Slicer> {
 			//BoxCollider2D box = GetComponent<BoxCollider2D>();
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
 
-			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 5f;
+			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 2f;
 
 			Vector3 tl, tr, bl, br;
-			tl = transform.position + new Vector3(-width / 1.5f, width);
-			tr = transform.position + new Vector3(width / 1.5f, width);
-			bl = transform.position + new Vector3(-width / 1.5f, -0);
-			br = transform.position + new Vector3(width / 1.5f, -0);
+			tl = transform.position + new Vector3(-width, width);
+			tr = transform.position + new Vector3(width, width);
+			bl = transform.position + new Vector3(-width, -width);
+			br = transform.position + new Vector3(width, -width);
 			
 			if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
 			{
