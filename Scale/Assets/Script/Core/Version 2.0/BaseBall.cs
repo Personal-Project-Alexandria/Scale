@@ -13,6 +13,7 @@ public class BaseBall : MonoBehaviour {
 	protected void Awake()
 	{
 		sprite = GetComponent<SpriteRenderer>();
+		body = GetComponent<Rigidbody2D>();
 	}
 
 	public void AddForce()
@@ -39,7 +40,6 @@ public class BaseBall : MonoBehaviour {
 	public void OnStart()
 	{
 		ScaleBall();
-		body = GetComponent<Rigidbody2D>();
 		AddForce();
 	}
 
@@ -76,17 +76,24 @@ public class BaseBall : MonoBehaviour {
 		this.sprite.sprite = UserProfile.Instance.GetBallSprite();
 		int life = GameManager.Instance.life;
 
-		if (life == 3)
-		{
-			transform.localScale = new Vector3(0.8f, 0.8f);
-		}
-		else if (life == 2)
-		{
-			transform.localScale = new Vector3(0.65f, 0.65f);
-		}
-		else if (life == 1)
+		if (GameManager.Instance.mode == 2)
 		{
 			transform.localScale = new Vector3(0.5f, 0.5f);
+		}
+		else
+		{
+			if (life == 3)
+			{
+				transform.localScale = new Vector3(0.8f, 0.8f);
+			}
+			else if (life == 2)
+			{
+				transform.localScale = new Vector3(0.65f, 0.65f);
+			}
+			else if (life == 1)
+			{
+				transform.localScale = new Vector3(0.5f, 0.5f);
+			}
 		}
 	}
 }

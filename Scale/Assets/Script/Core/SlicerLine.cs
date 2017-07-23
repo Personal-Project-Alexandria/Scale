@@ -102,7 +102,7 @@ public class SlicerLine : Line {
 		if (col.CompareTag("Ball"))
 		{
 			Slicer.Instance.ClearLine();
-			Ball.Instance.OnHit();
+			GameManager.Instance.ballManager.OnHit();
 		}
 	}
 

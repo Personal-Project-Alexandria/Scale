@@ -20,7 +20,7 @@ public class BallManager : MonoBehaviour
 
 		for (int i = 0; i < count; i++)
 		{
-			GameObject ballObject = (GameObject)Instantiate(ballPrefabs, null);
+			GameObject ballObject = (GameObject)Instantiate(ballPrefabs, transform);
 			BaseBall ball = ballObject.GetComponent<BaseBall>();
 			ball.ballManager = this;
 			balls.Add(ball);
@@ -31,7 +31,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].AddForce(i % 4);
+			if (balls[i] != null)
+			{
+				balls[i].AddForce(i % 4);
+			}
 		}
 	}
 
@@ -39,7 +42,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].StopForce();
+			if (balls[i] != null)
+			{
+				balls[i].StopForce();
+			}
 		}
 	}
 
@@ -47,7 +53,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].OnStart();
+			if (balls[i] != null)
+			{
+				balls[i].OnStart();
+			}
 		}
 	}
 
@@ -55,7 +64,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].Pause();
+			if (balls[i] != null)
+			{
+				balls[i].Pause();
+			}
 		}
 	}
 
@@ -63,7 +75,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].Continue();
+			if (balls[i] != null)
+			{
+				balls[i].Continue();
+			}
 		}
 	}
 
@@ -71,7 +86,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].Restart();
+			if (balls[i] != null)
+			{
+				balls[i].Restart(onLose);
+			}
 		}
 	}
 
@@ -97,7 +115,10 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			balls[i].ScaleBall();
+			if (balls[i] != null)
+			{
+				balls[i].ScaleBall();
+			}
 		}
 	}
 
@@ -105,9 +126,40 @@ public class BallManager : MonoBehaviour
 	{
 		for (int i = 0; i < balls.Count; i++)
 		{
-			Destroy(balls[i].gameObject);
+			if (balls[i] != null)
+			{
+				Destroy(balls[i].gameObject);
+			}
 		}
 		balls.Clear();
+	}
+
+	public void AddBall()
+	{
+		GameObject ballObject = (GameObject)Instantiate(ballPrefabs, GetMainBall().transform.position, Quaternion.identity, transform);
+		BaseBall ball = ballObject.GetComponent<BaseBall>();
+		ball.ballManager = this;
+		balls.Add(ball);
+		ball.OnStart();
+	}
+
+	public BaseBall GetMainBall()
+	{
+		if (balls != null && balls.Count >= 1)
+		{
+			return balls[0];
+		}
+		return null;
+	}
+
+	public List<BaseBall> GetMinorBalls()
+	{
+		List<BaseBall> minor = new List<BaseBall>();
+		for (int i = 1; i < balls.Count; i++)
+		{
+			minor.Add(balls[i]);
+		}
+		return minor;
 	}
 
 	public List<BaseBall> GetBallList()

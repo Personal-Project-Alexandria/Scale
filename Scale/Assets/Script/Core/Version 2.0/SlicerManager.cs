@@ -6,9 +6,14 @@ public class SlicerManager : MonoBehaviour {
 
 	public GameObject slicerPrefab;
 	private List<BaseSlicer> slicers;
+	[HideInInspector]
 	public bool down = false;
+	[HideInInspector]
 	public float downTime = 0f;
+	[HideInInspector]
 	public bool growing = false;
+
+	public float sliceSpeed = 3f;
 
 	protected void Update()
 	{

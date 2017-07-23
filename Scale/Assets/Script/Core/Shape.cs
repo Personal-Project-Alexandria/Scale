@@ -59,35 +59,27 @@ public class Shape : MonoBehaviour {
 		StartCoroutine(ScaleInAction(this.Center, CalculateScale()));
 	}
 
-	public IEnumerator ScaleInAction(Vector3 center, float scale, bool group = false)
+	public IEnumerator ScaleInAction(Vector3 center, float scale)
 	{
 		GameManager.Instance.inScale = true;
-
-		if (!group)
-		{
-			Ball.Instance.StopForce();
-		}
-		else
-		{
-			GameManager.Instance.ballManager.StopForce();
-		}
-		
+		GameManager.Instance.ballManager.StopForce();
 
 		float curScale = 1;
 		float curPoint = 0;
 
-		Vector3 ori = Ball.Instance.transform.position;
-
-		// ---->> Add balls list position here
 		List<Vector3> oris = new List<Vector3>();
 		List<BaseBall> balls = new List<BaseBall>();
 
-		if (group)
+		balls = GameManager.Instance.ballManager.GetBallList();
+		for (int i = 0; i < balls.Count; i++)
 		{
-			balls = GameManager.Instance.ballManager.GetBallList();
-			for (int i = 0; i < balls.Count; i++)
+			if (balls[i] != null)
 			{
 				oris.Add(balls[i].transform.position);
+			}
+			else
+			{
+				oris.Add(Vector3.zero);
 			}
 		}
 
@@ -109,13 +101,10 @@ public class Shape : MonoBehaviour {
 
 			points.RemoveAt(points.Count - 1);
 
-			if (!group)
+		
+			for (int i = 0; i < balls.Count; i++)
 			{
-				Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
-			}
-			else
-			{
-				for (int i = 0; i < balls.Count; i++)
+				if (balls[i] != null)
 				{
 					balls[i].transform.position = (oris[i] - center * curPoint) * curScale;
 				}
@@ -157,23 +146,16 @@ public class Shape : MonoBehaviour {
 
 		this.RenderMesh(points);
 
-		GameManager.Instance.area = this.Area();
-
-		if (!group)
+		for (int i = 0; i < balls.Count; i++)
 		{
-			Ball.Instance.transform.position = (ori - center * curPoint) * curScale;
-
-			Ball.Instance.AddForce();
-		}
-		else
-		{
-			for (int i = 0; i < balls.Count; i++)
+			if (balls[i] != null)
 			{
 				balls[i].transform.position = (oris[i] - center * curPoint) * curScale;
-				balls[i].AddForce();
+				balls[i].AddForce(Random.Range(0, 4));
 			}
 		}
 
+		GameManager.Instance.area = this.Area();
 		GameManager.Instance.NextLevel();
 		GameManager.Instance.inScale = false;
 	}

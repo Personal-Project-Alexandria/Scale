@@ -159,7 +159,7 @@ public class BaseSlicer : MonoBehaviour {
 			shape_one.gameObject.name = "shape_one";
 			shape_two.gameObject.name = "shape_two";
 
-			if (shape_one.BallInShape(Ball.Instance.transform.position))
+			if (shape_one.BallInShape(GameManager.Instance.ballManager.GetMainBall().transform.position))
 			{
 				Clear(1);
 			}
@@ -181,6 +181,9 @@ public class BaseSlicer : MonoBehaviour {
 		Destroy(first.gameObject);
 		Destroy(second.gameObject);
 
+		List<BaseBall> minor = new List<BaseBall>();
+		minor = GameManager.Instance.ballManager.GetMinorBalls();
+
 		if (index == 0)
 		{ 
 			GameManager.Instance.destroyArea += shape_one.Area();
@@ -192,6 +195,14 @@ public class BaseSlicer : MonoBehaviour {
 			GameManager.Instance.destroyArea += shape_two.Area();
 			Destroy(shape_two.gameObject);
 			GameManager.Instance.shape = shape_one;
+		}
+
+		for (int i = 0; i < minor.Count; i++)
+		{
+			if (minor[i] != null && !GameManager.Instance.shape.BallInShape(minor[i].transform.position))
+			{
+				Destroy(minor[i].gameObject);
+			}
 		}
 
 		this.transform.position = start;
@@ -246,7 +257,7 @@ public class BaseSlicer : MonoBehaviour {
 
 		if (this.grow)
 		{
-			Grow(Time.deltaTime * 2f);
+			Grow(Time.deltaTime * slicerManager.sliceSpeed);
 		}
 
 		if (rotateTip.activeInHierarchy)

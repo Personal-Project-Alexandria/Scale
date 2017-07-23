@@ -115,8 +115,6 @@ public class GameOverDialog : BaseDialog {
 
 	public void OnClickShare()
 	{
-
+		FBManager.Instance.ShareLink();
 	}
-
-	
 }

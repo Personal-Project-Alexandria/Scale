@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager> {
 
-	public int MODECOUNT = 2;
+	public int MODECOUNT = 3;
 	private const int DEFAULT_LIFE = 3;
 	public bool inScale = false;
 
@@ -38,20 +38,35 @@ public class GameManager : MonoSingleton<GameManager> {
 		life = DEFAULT_LIFE;
 		level = 1;
 		percent = 0f;
+		if (shape != null)
+		{
+			Destroy(shape.gameObject);
+		}
 		shape = MakeShape(null, true);
 		area = shape.Area();
 		destroyArea = 0;
-		ball.gameObject.SetActive(true);
-		ball.OnStart();
-
+		//ball.gameObject.SetActive(true);
+		//ball.OnStart();
+		
 		if (mode == 0)
-		{		
+		{
+			ballManager.Init(1);
+			ballManager.OnStart();
 			slicerManager.Init(1);
 			slicerManager.OnStart();
 		}
 		else if (mode == 1)
 		{
+			ballManager.Init(1);
+			ballManager.OnStart();
 			slicerManager.Init(3);
+			slicerManager.OnStart();
+		}
+		else if (mode == 2)
+		{
+			ballManager.Init(1);
+			ballManager.OnStart();
+			slicerManager.Init(1);
 			slicerManager.OnStart();
 		}
 	}
@@ -59,14 +74,14 @@ public class GameManager : MonoSingleton<GameManager> {
 	public void EndGame()
 	{
 		slicerManager.Clear();
-		ball.gameObject.SetActive(false);
+		ballManager.Clear();
 		Destroy(shape.gameObject);
 		gamePlay.OnCloseDialog();
 	}
 	
 	public void PauseGame()
 	{
-		ball.Pause();
+		ballManager.Pause();
 		slicerManager.Pause();
 	}
 
@@ -74,21 +89,15 @@ public class GameManager : MonoSingleton<GameManager> {
 	{
 		AdManager.Instance.ShowBanner();
 		slicerManager.Continue();
-		ball.Continue();
+		ballManager.Continue();
 	}
 
-	public void RestartGame()
+	public void RestartGame(bool onLose = false)
 	{
 		AdManager.Instance.ShowBanner();
-		life = DEFAULT_LIFE;
-		level = 1;
-		percent = 0;
-		Destroy(shape.gameObject);
-		shape = MakeShape(null, true);
-		area = shape.Area();
-		destroyArea = 0f;
-		ball.Restart();
-		slicerManager.Restart();
+		ballManager.Clear();
+		slicerManager.Clear();
+		StartGame();
 	}
 
 	public void NextLevel()
@@ -101,6 +110,11 @@ public class GameManager : MonoSingleton<GameManager> {
 		if (mode == 1)
 		{
 			slicerManager.Restart();
+		}
+		else if (mode == 2)
+		{
+			// ADD MORE BALL HERE
+			ballManager.AddBall();
 		}
 	}
 
@@ -135,18 +149,14 @@ public class GameManager : MonoSingleton<GameManager> {
 	public void ContinueOnLose()
 	{
 		AdManager.Instance.ShowBanner();
-		if (ball.gameObject.activeInHierarchy)
-		{
-			life = DEFAULT_LIFE;
-			ball.Restart(true);
-			slicerManager.Restart(true);
-		}
+		life = DEFAULT_LIFE;
+		ballManager.Restart(true);
+		slicerManager.Restart(true);
 	}
 
 	public Shape MakeShape(List<Vector3> points = null, bool scale = false)
 	{
 		GameObject shapeObject = Instantiate(shapePrefab, null) as GameObject;
-        //shapeObject.transform.position = new Vector3(0, this.gamePlay.panelAnchor.position.y, 0);
 		Shape shape = shapeObject.GetComponent<Shape>();
 
 		if (points != null)

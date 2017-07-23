@@ -22,6 +22,7 @@ public class BaseSlicerLine : Line {
 		base.Init();
 		gameObject.tag = "Slicer";
 		wait = false;
+		hit = false;
 	}
 
 	// Create specify for slicerLine
@@ -96,7 +97,7 @@ public class BaseSlicerLine : Line {
 		{
 			hit = true;
 			this.slicer.OnHit();
-			GameManager.Instance.ball.OnHit();
+			GameManager.Instance.ballManager.OnHit();
 			GameManager.Instance.CheckPercent();
 		}
 	}
