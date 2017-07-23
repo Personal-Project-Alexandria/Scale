@@ -6,6 +6,7 @@ using Facebook.Unity;
 
 public class GameStartDialog : BaseDialog {
 
+	public Text mode;
 	public Text highScore;
 	public Button noAdsButton;
 	public Button soundButton;
@@ -14,6 +15,18 @@ public class GameStartDialog : BaseDialog {
 	{
 		base.OnShow(transf, data);
 		highScore.text = UserProfile.Instance.GetHighScore(GameManager.Instance.mode).ToString();
+		if (GameManager.Instance.mode == 0)
+		{
+			mode.text = "Scale";
+		}
+		else if (GameManager.Instance.mode == 1)
+		{
+			mode.text = "3 slices";
+		}
+		else
+		{
+			mode.text = "multiballs";
+		}
 		AdManager.Instance.ShowBanner();
 		Setup();
 	}
@@ -77,5 +90,10 @@ public class GameStartDialog : BaseDialog {
 		{
 			soundButton.GetComponent<Image>().sprite = UserProfile.Instance.noSound;
 		}
+	}
+
+	public void OnModeClick()
+	{
+		ModeDialog modeDialog = GUIManager.Instance.OnShowDialog<ModeDialog>("Mode");
 	}
 }

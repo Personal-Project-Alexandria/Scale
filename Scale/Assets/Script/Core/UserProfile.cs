@@ -158,7 +158,7 @@ public class UserProfile : MonoSingleton<UserProfile> {
 		// Init for second, third, ... play
 		for (int i = 0; i < GameManager.Instance.MODECOUNT; i++)
 		{
-			if (PlayerPrefs.HasKey(KEY_HIGH_SCORE))
+			if (PlayerPrefs.HasKey(KEY_HIGH_SCORE + i))
 			{
 				this.highScore[i] = PlayerPrefs.GetInt(KEY_HIGH_SCORE + i);
 			}

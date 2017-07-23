@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameOverDialog : BaseDialog {
 
+	public Text mode;
 	public Text bestScore;
 	public Text score;
 	public Text addedDiamond;
@@ -60,6 +61,18 @@ public class GameOverDialog : BaseDialog {
 
 	public void SetAllText()
 	{
+		if (GameManager.Instance.mode == 0)
+		{
+			mode.text = "Scale";
+		}
+		else if (GameManager.Instance.mode == 1)
+		{
+			mode.text = "3 slices";
+		}
+		else
+		{
+			mode.text = "multiballs";
+		}
 		bestScore.text = UserProfile.Instance.GetHighScore(GameManager.Instance.mode).ToString();
 		score.text = GameManager.Instance.level.ToString();
 		addedDiamond.text = "+" + (10 * GameManager.Instance.level).ToString();
@@ -116,5 +129,10 @@ public class GameOverDialog : BaseDialog {
 	public void OnClickShare()
 	{
 		FBManager.Instance.ShareLink();
+	}
+
+	public void OnClickMode()
+	{
+		ModeDialog modeDialog = GUIManager.Instance.OnShowDialog<ModeDialog>("Mode");
 	}
 }
