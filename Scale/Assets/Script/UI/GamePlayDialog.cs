@@ -34,14 +34,14 @@ public class GamePlayDialog : BaseDialog
 		diamond.text = UserProfile.Instance.GetDiamond().ToString();
 		slider.value = GameManager.Instance.percent;
 
-		if (Slicer.Instance.rotateTip.activeInHierarchy && Slicer.Instance.rotate)
-		{
-			rotateTip.text = "TAP TO ROTATE";
-		}
-		else
-		{
-			rotateTip.text = "";
-		}
+		//if (Slicer.Instance.rotateTip.activeInHierarchy && Slicer.Instance.rotate)
+		//{
+		//	rotateTip.text = "TAP TO ROTATE";
+		//}
+		//else
+		//{
+		//	rotateTip.text = "";
+		//}
 	}
 }
 

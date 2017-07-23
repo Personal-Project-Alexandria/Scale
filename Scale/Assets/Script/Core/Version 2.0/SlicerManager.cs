@@ -6,6 +6,17 @@ public class SlicerManager : MonoBehaviour {
 
 	public GameObject slicerPrefab;
 	private List<BaseSlicer> slicers;
+	public bool down = false;
+	public float downTime = 0f;
+	public bool growing = false;
+
+	protected void Update()
+	{
+		if (down)
+		{
+			downTime += Time.deltaTime;
+		}
+	}
 
 	public void Init(int count)
 	{
@@ -23,16 +34,14 @@ public class SlicerManager : MonoBehaviour {
 			slicers.Clear();
 		}
 
-		float partWidth = Screen.width / count;
-		float partWidthCenter = partWidth / 2;
-		float halfScreenWidth = Screen.width / 2;
-		 
+		float dis = 1.5f;
+		float half = dis * (count - 1) / 2;
 		for (int i = 0; i < count; i++)
 		{
 			GameObject slicerObject = (GameObject)Instantiate(slicerPrefab, transform);
 			slicers.Add(slicerObject.GetComponent<BaseSlicer>());
-			float worldX = Camera.main.ScreenToWorldPoint(new Vector3(partWidth * i + partWidthCenter, 0)).x;
-			slicers[i].start = new Vector3(worldX, -3.5f, 0);
+			slicers[i].start = new Vector3(dis * i - half, -3.5f, 0);
+			slicers[i].slicerManager = this;
 		}
 	}
 
@@ -84,7 +93,29 @@ public class SlicerManager : MonoBehaviour {
 
 		for (int i = 0; i < slicers.Count; i++)
 		{
+			slicers[i].gameObject.SetActive(true);
 			slicers[i].Restart(onLose);
 		}
+	}
+
+	public void Clear()
+	{
+		foreach (BaseSlicer slicer in slicers)
+		{
+			Destroy(slicer.gameObject);
+		}
+		slicers.Clear();
+	}
+
+	public bool RemainSlicer()
+	{
+		for (int i = 0; i < slicers.Count; i++)
+		{
+			if (slicers[i].gameObject.activeInHierarchy)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 }

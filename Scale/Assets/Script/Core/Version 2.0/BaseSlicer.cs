@@ -15,6 +15,7 @@ public class BaseSlicer : MonoBehaviour {
 	public Sprite straightOut;
 	public GameObject rotateTip;
 	public bool rotate;
+	public SlicerManager slicerManager;
 
 	[HideInInspector]
 	public float area;
@@ -73,13 +74,25 @@ public class BaseSlicer : MonoBehaviour {
 		first.gameObject.SetActive(false);
 		second.gameObject.SetActive(false);
 		rotate = RandomRotate();
-		ShowRotateTip();
+
+		this.grow = false;
+		slicerManager.down = false;
+		slicerManager.growing = false;
+
+		if (rotate)
+		{
+			rotateTip.SetActive(true);
+		}
+		else
+		{
+			rotateTip.SetActive(false);
+		}
 	}
 
 	public bool RandomRotate()
 	{
 		int rand = Random.Range(0, 100);
-		if (rand < 50)
+		if (rand < 25)
 		{
 			return true;
 		}
@@ -104,6 +117,8 @@ public class BaseSlicer : MonoBehaviour {
 	{
 		if (first != null && second != null)
 		{
+			slicerManager.growing = true;
+
 			first.gameObject.SetActive(true);
 			second.gameObject.SetActive(true);
 
@@ -152,6 +167,11 @@ public class BaseSlicer : MonoBehaviour {
 			{
 				Clear(0);
 			}
+
+			if (GameManager.Instance.mode == 1)
+			{
+				gameObject.SetActive(false);
+			}
 		}
 	}
 
@@ -162,29 +182,22 @@ public class BaseSlicer : MonoBehaviour {
 		Destroy(second.gameObject);
 
 		if (index == 0)
-		{
-			destroyArea += shape_one.Area();
+		{ 
+			GameManager.Instance.destroyArea += shape_one.Area();
 			Destroy(shape_one.gameObject);
 			GameManager.Instance.shape = shape_two;
 		}
 		else
 		{
-			destroyArea += shape_two.Area();
+			GameManager.Instance.destroyArea += shape_two.Area();
 			Destroy(shape_two.gameObject);
 			GameManager.Instance.shape = shape_one;
 		}
 
-		this.grow = false;
 		this.transform.position = start;
 		this.Reload();
 
-		GameManager.Instance.percent = destroyArea / area;
-
-		if (GameManager.Instance.percent >= GameManager.Instance.goalPercent)
-		{
-			GameManager.Instance.shape.Scale();
-			destroyArea = 0;
-		}
+		GameManager.Instance.CheckPercent();
 	}
 
 	public void ClearLine()
@@ -197,7 +210,7 @@ public class BaseSlicer : MonoBehaviour {
 		{
 			Destroy(second.gameObject);
 		}
-		this.grow = false;
+
 		this.transform.position = start;
 		this.Reload();
 	}
@@ -221,8 +234,6 @@ public class BaseSlicer : MonoBehaviour {
 	protected const float DOWN_TIME = 0.2f;
 	protected float downTime = 0f;
 	[HideInInspector]
-	public bool down = false;
-	[HideInInspector]
 	public bool grow = false;
 
 	protected void Update()
@@ -233,15 +244,9 @@ public class BaseSlicer : MonoBehaviour {
 			return;
 		}
 
-		// Else process...
-		if (this.down)
-		{
-			this.downTime += Time.deltaTime;
-		}
-
 		if (this.grow)
 		{
-			Grow(Time.deltaTime * 1.5f);
+			Grow(Time.deltaTime * 2f);
 		}
 
 		if (rotateTip.activeInHierarchy)
@@ -285,14 +290,14 @@ public class BaseSlicer : MonoBehaviour {
 
 	protected void OnMouseDown()
 	{
-		if (paused)
+		if (paused || slicerManager.growing)
 		{
 			return;
 		}
 
-		if (!grow && !down && !GameManager.Instance.inScale)
+		if (!this.grow && !slicerManager.down && !GameManager.Instance.inScale)
 		{
-			this.down = true;
+			slicerManager.down = true;
 
 			offset = transform.position - Camera.main.ScreenToWorldPoint(
 				new Vector3(Input.mousePosition.x, Input.mousePosition.y));
@@ -301,12 +306,12 @@ public class BaseSlicer : MonoBehaviour {
 
 	protected void OnMouseDrag()
 	{
-		if (paused)
+		if (paused || slicerManager.growing)
 		{
 			return;
 		}
 
-		if (!this.grow && down && !GameManager.Instance.inScale)
+		if (!this.grow && slicerManager.down && !GameManager.Instance.inScale)
 		{
 			HideRotateTip();
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
@@ -316,12 +321,12 @@ public class BaseSlicer : MonoBehaviour {
 
 	protected virtual void OnMouseUp()
 	{
-		if (paused)
+		if (paused || slicerManager.growing)
 		{
 			return;
 		}
 
-		if (down && !this.grow && !GameManager.Instance.inScale)
+		if (slicerManager.down && !this.grow && !GameManager.Instance.inScale)
 		{
 			//BoxCollider2D box = GetComponent<BoxCollider2D>();
 			Shape shape = FindObjectOfType<Shape>(); // Cheat here
@@ -340,7 +345,7 @@ public class BaseSlicer : MonoBehaviour {
 			}
 			else
 			{
-				if (downTime < 0.15f)
+				if (slicerManager.downTime < 0.15f)
 				{
 					this.Rotate();
 				}
@@ -349,8 +354,8 @@ public class BaseSlicer : MonoBehaviour {
 				ShowRotateTip();
 			}
 
-			this.down = false;
-			this.downTime = 0f;
+			slicerManager.down = false;
+			slicerManager.downTime = 0f;
 		}
 	}
 
@@ -364,7 +369,7 @@ public class BaseSlicer : MonoBehaviour {
 
 	public void HideRotateTip()
 	{
-		if (rotateTip.activeInHierarchy && rotateTip.transform.position != start)
+		if (rotateTip.transform.position != start)
 		{
 			rotateTip.SetActive(false);
 		}
@@ -387,13 +392,23 @@ public class BaseSlicer : MonoBehaviour {
 		this.paused = false;
 	}
 
+	public void OnHit()
+	{
+		ClearLine();
+
+		if (GameManager.Instance.mode == 1)
+		{
+			HideRotateTip();
+			gameObject.SetActive(false);
+		}
+	}
+
 	public void Restart(bool onLose = false)
 	{
 		if (!onLose)
 		{
-			destroyArea = 0;
+			GameManager.Instance.destroyArea = 0;
 		}
-
 		transform.position = start;
 		ClearLine();
 		paused = false;

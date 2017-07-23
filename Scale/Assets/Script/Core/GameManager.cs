@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class GameManager : MonoSingleton<GameManager> {
 
+	public int MODECOUNT = 2;
 	private const int DEFAULT_LIFE = 3;
-	public bool inScale = false; 
+	public bool inScale = false;
 
 	public float goalPercent = 0.5f;
 	public GameObject shapePrefab;
@@ -20,6 +21,9 @@ public class GameManager : MonoSingleton<GameManager> {
     public Transform gameAnchor;
 	public BallManager ballManager;
 	public SlicerManager slicerManager;
+	public float area;
+	public float destroyArea;
+	public int mode;
 
     public void Update()
     {
@@ -35,31 +39,41 @@ public class GameManager : MonoSingleton<GameManager> {
 		level = 1;
 		percent = 0f;
 		shape = MakeShape(null, true);
-		slicer.gameObject.SetActive(true);
+		area = shape.Area();
+		destroyArea = 0;
 		ball.gameObject.SetActive(true);
-		slicer.area = shape.Area();
 		ball.OnStart();
-		slicer.OnStart();
+
+		if (mode == 0)
+		{		
+			slicerManager.Init(1);
+			slicerManager.OnStart();
+		}
+		else if (mode == 1)
+		{
+			slicerManager.Init(3);
+			slicerManager.OnStart();
+		}
 	}
 
 	public void EndGame()
 	{
-		slicer.gameObject.SetActive(false);
+		slicerManager.Clear();
 		ball.gameObject.SetActive(false);
 		Destroy(shape.gameObject);
 		gamePlay.OnCloseDialog();
 	}
-
+	
 	public void PauseGame()
 	{
 		ball.Pause();
-		slicer.Pause();
+		slicerManager.Pause();
 	}
 
 	public void ContinueGame()
 	{
 		AdManager.Instance.ShowBanner();
-		slicer.Continue();
+		slicerManager.Continue();
 		ball.Continue();
 	}
 
@@ -71,15 +85,23 @@ public class GameManager : MonoSingleton<GameManager> {
 		percent = 0;
 		Destroy(shape.gameObject);
 		shape = MakeShape(null, true);
-		slicer.area = shape.Area();
+		area = shape.Area();
+		destroyArea = 0f;
 		ball.Restart();
-		slicer.Restart();
+		slicerManager.Restart();
 	}
 
 	public void NextLevel()
 	{
+		destroyArea = 0;
+		area = shape.Area();
 		percent = 0;
 		level++;
+
+		if (mode == 1)
+		{
+			slicerManager.Restart();
+		}
 	}
 
 	public void OnLose()
@@ -92,15 +114,13 @@ public class GameManager : MonoSingleton<GameManager> {
 	{
 		EndGame();
 
-		UserProfile.Instance.SetHighScore(level);
+		UserProfile.Instance.SetHighScore(level, mode);
 
 		UserProfile.Instance.AddDiamond(level * 10);
 
 		AdManager.Instance.ShowVideo();
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
-
-        
     }
 
 	public void QuitGame()
@@ -115,11 +135,11 @@ public class GameManager : MonoSingleton<GameManager> {
 	public void ContinueOnLose()
 	{
 		AdManager.Instance.ShowBanner();
-		if (slicer.gameObject.activeInHierarchy && ball.gameObject.activeInHierarchy)
+		if (ball.gameObject.activeInHierarchy)
 		{
 			life = DEFAULT_LIFE;
 			ball.Restart(true);
-			slicer.Restart(true);
+			slicerManager.Restart(true);
 		}
 	}
 
@@ -144,6 +164,27 @@ public class GameManager : MonoSingleton<GameManager> {
 		return shape;
 	}
 
+	public void CheckPercent()
+	{
+		percent = destroyArea / area;
+		if (percent >= goalPercent)
+		{
+			shape.Scale();
+		}
+		else if (mode == 1)
+		{
+			StartCoroutine(CheckRemainSlicer());
+		}
+	}
+
+	IEnumerator CheckRemainSlicer()
+	{
+		yield return new WaitForEndOfFrame();
+		if (!slicerManager.RemainSlicer())
+		{
+			OnLose();
+		}
+	}
 
 	// 3 balls test mode
 	[ContextMenu("Start 3 balls")]
@@ -161,13 +202,15 @@ public class GameManager : MonoSingleton<GameManager> {
 	[ContextMenu("Start 3 slicers")]
 	public void StartMultipleSlicer()
 	{
-		slicerManager.Init(3);
+		slicerManager.Init(1);
 		life = DEFAULT_LIFE;
 		level = 1;
 		percent = 0f;
 		shape = MakeShape(null, true);
+		area = shape.Area();
 		ball.gameObject.SetActive(true);
 		ball.OnStart();
 		slicerManager.OnStart();
+		destroyArea = 0;
 	}
 }

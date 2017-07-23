@@ -161,13 +161,13 @@ public class Slicer : MonoSingleton<Slicer> {
 
 		if (index == 0)
 		{
-			destroyArea += shape_one.Area();
+			GameManager.Instance.destroyArea += shape_one.Area();
 			Destroy(shape_one.gameObject);
 			GameManager.Instance.shape = shape_two;
 		}
 		else
 		{
-			destroyArea += shape_two.Area();
+			GameManager.Instance.destroyArea += shape_two.Area();
 			Destroy(shape_two.gameObject);
 			GameManager.Instance.shape = shape_one;
 		}
@@ -176,13 +176,7 @@ public class Slicer : MonoSingleton<Slicer> {
 		this.transform.position = start;
 		this.Reload();
 
-		GameManager.Instance.percent = destroyArea / area;
-
-		if (GameManager.Instance.percent >= GameManager.Instance.goalPercent)
-		{
-			GameManager.Instance.shape.Scale();
-			destroyArea = 0;
-		}
+		GameManager.Instance.CheckPercent();
 	}
 
 	public void ClearLine()
@@ -389,7 +383,7 @@ public class Slicer : MonoSingleton<Slicer> {
 	{
 		if (!onLose)
 		{
-			destroyArea = 0;
+			GameManager.Instance.destroyArea = 0;
 		}
 		
 		transform.position = start;

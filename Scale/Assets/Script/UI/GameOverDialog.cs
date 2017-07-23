@@ -60,7 +60,7 @@ public class GameOverDialog : BaseDialog {
 
 	public void SetAllText()
 	{
-		bestScore.text = UserProfile.Instance.GetHighScore().ToString();
+		bestScore.text = UserProfile.Instance.GetHighScore(GameManager.Instance.mode).ToString();
 		score.text = GameManager.Instance.level.ToString();
 		addedDiamond.text = "+" + (10 * GameManager.Instance.level).ToString();
 		diamond.text = UserProfile.Instance.GetDiamond().ToString();

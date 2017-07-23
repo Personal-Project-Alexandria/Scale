@@ -17,7 +17,8 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	private string KEY_ADS = "KEY_ADS";
 	private string KEY_BALL = "KEY_BALL";
 
-	private int highScore;
+	private List<int> highScore;
+
 	private int diamond;
 	private bool ads; // 0 = no ads, 1 = has ads
 	private List<bool> balls; // 0 = not, 1 = bought
@@ -30,11 +31,10 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	}
 
 	// High score function
-	public bool IsHighScore(int newScore)
+	public bool IsHighScore(int newScore, int mode)
 	{
-		if (newScore > this.highScore)
+		if (mode < highScore.Count && newScore > this.highScore[mode])
 		{
-           
 			return true;
 		}
 		else
@@ -42,17 +42,24 @@ public class UserProfile : MonoSingleton<UserProfile> {
 			return false;
 		}
 	}
-	public void SetHighScore(int newScore)
+	public void SetHighScore(int newScore, int mode)
 	{
-		if (IsHighScore(newScore))
+		if (IsHighScore(newScore, mode))
 		{
-			this.highScore = newScore;
-			PlayerPrefs.SetInt(KEY_HIGH_SCORE, this.highScore);
+			this.highScore[mode] = newScore;
+			PlayerPrefs.SetInt(KEY_HIGH_SCORE + mode, this.highScore[mode]);
 		}
 	}
-	public int GetHighScore()
+	public int GetHighScore(int mode)
 	{
-		return this.highScore;
+		if (mode < highScore.Count)
+		{
+			return this.highScore[mode];
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	// Diamond function
@@ -129,7 +136,12 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	public void LoadProfile()
 	{
 		// Init for first play
-		this.highScore = 0;
+		this.highScore = new List<int>();
+		for (int i = 0; i < GameManager.Instance.MODECOUNT; i++)
+		{
+			this.highScore.Add(0);
+		}
+
 		this.diamond = 0;
 		this.ads = true;
 
@@ -144,9 +156,12 @@ public class UserProfile : MonoSingleton<UserProfile> {
 		this.ballSprite = ballSprites[0];
 
 		// Init for second, third, ... play
-		if (PlayerPrefs.HasKey(KEY_HIGH_SCORE))
+		for (int i = 0; i < GameManager.Instance.MODECOUNT; i++)
 		{
-			this.highScore = PlayerPrefs.GetInt(KEY_HIGH_SCORE);
+			if (PlayerPrefs.HasKey(KEY_HIGH_SCORE))
+			{
+				this.highScore[i] = PlayerPrefs.GetInt(KEY_HIGH_SCORE + i);
+			}
 		}
 		if (PlayerPrefs.HasKey(KEY_DIAMOND))
 		{
@@ -171,7 +186,10 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	}
 	public void SaveProfile()
 	{
-		PlayerPrefs.SetInt(KEY_HIGH_SCORE, this.highScore);
+		for (int i = 0; i < GameManager.Instance.MODECOUNT; i++)
+		{
+			PlayerPrefs.SetInt(KEY_HIGH_SCORE + i, this.highScore[i]);
+		}
 		PlayerPrefs.SetInt(KEY_DIAMOND, this.diamond);
 		PlayerPrefs.SetInt(KEY_ADS, HasAds() ? 1 : 0);
 		for (int i = 0; i < balls.Count; i++)

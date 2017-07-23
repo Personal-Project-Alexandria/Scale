@@ -157,7 +157,7 @@ public class Shape : MonoBehaviour {
 
 		this.RenderMesh(points);
 
-		Slicer.Instance.area = this.Area();
+		GameManager.Instance.area = this.Area();
 
 		if (!group)
 		{

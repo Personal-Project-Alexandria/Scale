@@ -89,15 +89,15 @@ public class BaseSlicerLine : Line {
 		{
 			wait = true;
 			line = col.GetComponent<Line>();
-			Debug.Log(line.direction);
 			this.slicer.Slice();
 		}
 
 		if (col.CompareTag("Ball") && !hit)
 		{
 			hit = true;
-			this.slicer.ClearLine();
-			GameManager.Instance.ballManager.OnHit();
+			this.slicer.OnHit();
+			GameManager.Instance.ball.OnHit();
+			GameManager.Instance.CheckPercent();
 		}
 	}
 

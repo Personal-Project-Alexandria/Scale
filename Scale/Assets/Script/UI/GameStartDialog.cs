@@ -13,7 +13,7 @@ public class GameStartDialog : BaseDialog {
 	public override void OnShow(Transform transf, object data)
 	{
 		base.OnShow(transf, data);
-		highScore.text = UserProfile.Instance.GetHighScore().ToString();
+		highScore.text = UserProfile.Instance.GetHighScore(GameManager.Instance.mode).ToString();
 		AdManager.Instance.ShowBanner();
 		Setup();
 	}
