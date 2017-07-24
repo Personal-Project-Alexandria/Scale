@@ -45,8 +45,6 @@ public class GameManager : MonoSingleton<GameManager> {
 		shape = MakeShape(null, true);
 		area = shape.Area();
 		destroyArea = 0;
-		//ball.gameObject.SetActive(true);
-		//ball.OnStart();
 		
 		if (mode == 0)
 		{

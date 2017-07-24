@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Facebook.Unity;
 
 public class GameOverDialog : BaseDialog {
 
@@ -110,7 +111,10 @@ public class GameOverDialog : BaseDialog {
 
 	public void OnClickLeaderBoard()
 	{
-
+		if (Application.internetReachability != NetworkReachability.NotReachable)
+		{
+			LeaderDialog leader = GUIManager.Instance.OnShowDialog<LeaderDialog>("Leader");
+		}
 	}
 
 	public void OnClickSound()
@@ -134,5 +138,17 @@ public class GameOverDialog : BaseDialog {
 	public void OnClickMode()
 	{
 		ModeDialog modeDialog = GUIManager.Instance.OnShowDialog<ModeDialog>("Mode");
+	}
+
+	public void OnClickCommit()
+	{
+		if (FB.IsLoggedIn)
+		{
+			LeaderBoard.Instance.UploadHighscore(GameManager.Instance.mode);
+		}
+		else
+		{
+			FBManager.Instance.Login();
+		}
 	}
 }

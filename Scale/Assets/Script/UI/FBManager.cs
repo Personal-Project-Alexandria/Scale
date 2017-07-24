@@ -7,7 +7,8 @@ using System;
 public class FBManager : MonoSingleton<FBManager> {
 
 	private List<string> Perms = new List<string> { "public_profile", "email", "user_friends" };
-	
+	private string fbname = "";
+
 	public ScreenRecorder screenRecorder;
 
 	protected void Awake()
@@ -35,6 +36,24 @@ public class FBManager : MonoSingleton<FBManager> {
 	private bool sharing = true;
 
 	private Uri screenshotUri;
+
+	public void SetupUserName()
+	{
+		if (!fbname.Equals(""))
+		{
+			return;
+		}
+
+		if (FB.IsLoggedIn)
+		{ 
+			FB.API("/me?fields=name", HttpMethod.GET, GetUserCallback);
+		}	
+	}
+
+	public string GetUserName()
+	{
+		return this.fbname;
+	}
 
 	//private IEnumerator TakeScreenshot()
 	//{
@@ -74,7 +93,6 @@ public class FBManager : MonoSingleton<FBManager> {
 	{
 
 	}
-
 #region Callback
 	private void LogInCallback(IResult result)
 	{
@@ -85,6 +103,7 @@ public class FBManager : MonoSingleton<FBManager> {
 		else
 		{
 			Debug.Log("Login successfully");
+			SetupUserName();
 		}
 	}
 	private void ShareLinkCallback(IShareResult result) 
@@ -103,6 +122,7 @@ public class FBManager : MonoSingleton<FBManager> {
 		if (FB.IsInitialized)
 		{
 			Debug.Log("Succesfully initialized");
+			SetupUserName();
 		}
 		else
 		{
@@ -118,6 +138,14 @@ public class FBManager : MonoSingleton<FBManager> {
 		else
 		{
 			Time.timeScale = 0f;
+		}
+	}
+	private void GetUserCallback(IGraphResult result)
+	{
+		if (FB.IsLoggedIn)
+		{
+			IDictionary<string, object> dict = result.ResultDictionary;
+			fbname = dict["name"].ToString();
 		}
 	}
 #endregion

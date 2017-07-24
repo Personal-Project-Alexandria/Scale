@@ -77,6 +77,22 @@ public class GameStartDialog : BaseDialog {
 
     public void OnClickLeaderBoard()
 	{
+		if (Application.internetReachability != NetworkReachability.NotReachable)
+		{
+			LeaderDialog leader = GUIManager.Instance.OnShowDialog<LeaderDialog>("Leader");
+		}
+	}
+
+	public void OnClickCommit()
+	{
+		if (FB.IsLoggedIn)
+		{
+			LeaderBoard.Instance.UploadHighscore(GameManager.Instance.mode);
+		}
+		else
+		{
+			FBManager.Instance.Login();
+		}
 	}
 
 	public void OnClickSound()
