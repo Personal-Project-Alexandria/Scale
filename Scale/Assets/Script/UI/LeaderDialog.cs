@@ -50,6 +50,19 @@ public class LeaderDialog : BaseDialog {
 				GameObject scoreBar = Instantiate(itemPrefab, grid.transform);
 				scoreBar.transform.localScale = Vector3.one;
 				scoreBar.GetComponent<ModeItem>().Setup(scoreList[i].playerName, scoreList[i].score.ToString());
+
+				if (i == 0)
+				{
+					scoreBar.GetComponent<Image>().color = Palette.Translate(PColor.GOLD);
+				}
+				else if (i == 1)
+				{
+					scoreBar.GetComponent<Image>().color = Palette.Translate(PColor.SILVER);
+				}
+				else if (i == 2)
+				{
+					scoreBar.GetComponent<Image>().color = Palette.Translate(PColor.BRONZE);
+				}
 			}
 		}
 	}

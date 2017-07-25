@@ -14,7 +14,10 @@ public enum PColor
 	PURPLE,
 	PINK,
 	DARKYELLOW,
-	DARKGREEN
+	DARKGREEN,
+	GOLD,
+	SILVER,
+	BRONZE
 }
 
 public class Palette {
@@ -39,6 +42,9 @@ public class Palette {
 		case PColor.PINK: return new Color32(206, 74, 148, 255);
 		case PColor.DARKYELLOW: return new Color32(206, 164, 74, 255);
 		case PColor.DARKGREEN: return new Color32(42, 116, 32, 255);
+		case PColor.GOLD: return new Color32(173, 164, 65, 255);
+		case PColor.SILVER: return new Color32(129, 131, 159, 255);
+		case PColor.BRONZE: return new Color32(120, 89, 49, 255);
 		default: return new Color32(0, 0, 0, 255);
 		}
 	}

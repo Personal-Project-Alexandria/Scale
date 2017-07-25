@@ -30,7 +30,11 @@ public class FBManager : MonoSingleton<FBManager> {
 
 	public void ShareLink()
 	{
+#if UNITY_ANDROID
 		FB.ShareLink(new Uri("https://play.google.com/store/apps/details?id=com.quoclv.bestgame.scalecolor"), "Scale Color", "Join us to play this awesome game", null, ShareLinkCallback);
+#elif UNITY_IOS
+		FB.ShareLink(new Uri("https://itunes.apple.com/us/app/scale-color/id1261258088"), "Scale Color", "Join us to play this awesome game", null, ShareLinkCallback);
+#endif
 	}
 
 	private bool sharing = true;
