@@ -35,6 +35,7 @@ public class GameManager : MonoSingleton<GameManager> {
     public void StartGame()
 	{
 		AdManager.Instance.ShowBanner();
+
 		life = DEFAULT_LIFE;
 		level = 1;
 		percent = 0f;
@@ -67,6 +68,9 @@ public class GameManager : MonoSingleton<GameManager> {
 			slicerManager.Init(1);
 			slicerManager.OnStart();
 		}
+
+		gamePlay.background.color = Palette.Translate(PColor.PURPLE);
+		shape.FillColor(Palette.Translate(PColor.PURPLE));
 	}
 
 	public void EndGame()
@@ -104,6 +108,10 @@ public class GameManager : MonoSingleton<GameManager> {
 		area = shape.Area();
 		percent = 0;
 		level++;
+
+		Color rand = Palette.RandomColorExcept(new List<PColor>() { PColor.WHITE, PColor.YELLOW });
+		gamePlay.background.color = rand;
+		shape.FillColor(rand);
 
 		if (mode == 1)
 		{

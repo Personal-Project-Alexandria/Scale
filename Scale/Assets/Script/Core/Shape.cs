@@ -112,16 +112,16 @@ public class Shape : MonoBehaviour {
 
 			RenderMesh(points3);
 
-			yield return new WaitForFixedUpdate();
+			yield return null;
 
 			if (curScale < scale)
 			{
-				curScale += Time.fixedDeltaTime * 1f;
+				curScale += Time.deltaTime * 1.5f;
 			}
 
 			if (curPoint < 1)
 			{
-				curPoint += Time.fixedDeltaTime * 1.5f;
+				curPoint += Time.deltaTime * 1.5f;
 			}
 		}
 
@@ -428,7 +428,15 @@ public class Shape : MonoBehaviour {
 		mesh.triangles = triangles;
 		mesh.uv = uv;
 		mf.mesh = mesh;
-		mr.material.color = new Color32(123, 58, 188, 255);
+		mr.material.color = Shape.fill;
+	}
+
+	private static Color fill = Palette.Translate(PColor.PURPLE);
+
+	public void FillColor(Color color)
+	{
+		Shape.fill = color;
+		GetComponent<MeshRenderer>().material.color = Shape.fill;
 	}
 
 	public float Area()
@@ -472,5 +480,23 @@ public class Shape : MonoBehaviour {
 			}
 		}
 		return null;
+	}
+
+	public void Clear()
+	{
+		Destroy(gameObject);
+		//StartCoroutine(Fade());
+	}
+
+	IEnumerator Fade()
+	{
+		MeshRenderer mr = GetComponent<MeshRenderer>();
+		while (mr.material.color.a != 0 && !GameManager.Instance.inScale)
+		{
+			Debug.Log("HERE");
+			mr.material.color = Color.Lerp(Shape.fill, new Color(0, 0, 0, 0), Mathf.PingPong(Time.time, 1));
+			yield return null;
+		}
+		Destroy(gameObject);
 	}
 }

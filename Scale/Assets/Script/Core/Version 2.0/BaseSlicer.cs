@@ -187,13 +187,13 @@ public class BaseSlicer : MonoBehaviour {
 		if (index == 0)
 		{ 
 			GameManager.Instance.destroyArea += shape_one.Area();
-			Destroy(shape_one.gameObject);
+			shape_one.Clear();
 			GameManager.Instance.shape = shape_two;
 		}
 		else
 		{
 			GameManager.Instance.destroyArea += shape_two.Area();
-			Destroy(shape_two.gameObject);
+			shape_two.Clear();
 			GameManager.Instance.shape = shape_one;
 		}
 

@@ -97,6 +97,7 @@ public class BaseSlicerLine : Line {
 		{
 			hit = true;
 			this.slicer.OnHit();
+			EffectManager.Instance.BallTouchLine(col.transform.position, 0.2f);
 			GameManager.Instance.ballManager.OnHit();
 			GameManager.Instance.CheckPercent();
 		}

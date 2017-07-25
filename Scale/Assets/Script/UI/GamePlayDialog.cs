@@ -20,7 +20,7 @@ public class GamePlayDialog : BaseDialog
 	}
 
 	// ------------------------- TOPBAR GUI ------------------------ //
-
+	public Image background;
 	public Text life;
 	public Text level;
 	public Text diamond;

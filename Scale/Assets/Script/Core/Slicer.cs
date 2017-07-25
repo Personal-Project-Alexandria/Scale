@@ -162,13 +162,15 @@ public class Slicer : MonoSingleton<Slicer> {
 		if (index == 0)
 		{
 			GameManager.Instance.destroyArea += shape_one.Area();
-			Destroy(shape_one.gameObject);
+			//Destroy(shape_one.gameObject);
+			shape_one.Clear();
 			GameManager.Instance.shape = shape_two;
 		}
 		else
 		{
 			GameManager.Instance.destroyArea += shape_two.Area();
-			Destroy(shape_two.gameObject);
+			//Destroy(shape_two.gameObject);
+			shape_two.Clear();
 			GameManager.Instance.shape = shape_one;
 		}
 
