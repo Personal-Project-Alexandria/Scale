@@ -491,11 +491,17 @@ public class Shape : MonoBehaviour {
 	IEnumerator Fade()
 	{
 		MeshRenderer mr = GetComponent<MeshRenderer>();
-		while (mr.material.color.a != 0 && !GameManager.Instance.inScale)
+		for (int i = 0; i < lines.Count; i++)
 		{
-			Debug.Log("HERE");
-			mr.material.color = Color.Lerp(Shape.fill, new Color(0, 0, 0, 0), Mathf.PingPong(Time.time, 1));
+			Destroy(lines[i].gameObject);
+		}
+		Color color = mr.material.color;
+		float time = 0f;
+		while (time < 1 && !GameManager.Instance.inScale)
+		{
 			yield return null;
+			time += Time.deltaTime;
+			mr.material.color = Color.Lerp(mr.material.color, new Color(0, 0, 0, 0), time);
 		}
 		Destroy(gameObject);
 	}

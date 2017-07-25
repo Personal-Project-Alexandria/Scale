@@ -109,7 +109,7 @@ public class GameManager : MonoSingleton<GameManager> {
 		percent = 0;
 		level++;
 
-		Color rand = Palette.RandomColorExcept(new List<PColor>() { PColor.WHITE, PColor.YELLOW });
+		Color rand = Palette.RandomColorExcept(new List<PColor>() { PColor.WHITE, PColor.YELLOW, PColor.DARKYELLOW });
 		gamePlay.background.color = rand;
 		shape.FillColor(rand);
 

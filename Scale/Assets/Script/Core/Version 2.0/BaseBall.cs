@@ -16,19 +16,27 @@ public class BaseBall : MonoBehaviour {
 		body = GetComponent<Rigidbody2D>();
 	}
 
-	public void AddForce()
+	public void AddForce(float scale = 1)
 	{
-		body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200);
+		if (GameManager.Instance.mode == 2)
+		{
+			scale = 0.75f;
+		}
+		body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200 * scale);
 	}
 
-	public void AddForce(int part)
+	public void AddForce(int part, float scale = 1)
 	{
+		if (GameManager.Instance.mode == 2)
+		{
+			scale = 0.75f;
+		}
 		switch (part)
 		{
-		case 0: body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200); break;
-		case 1: body.AddForce(new Vector3(Random.Range(-1, -0.5f), Random.Range(0.5f, 1f)).normalized * 200); break;
-		case 2: body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(-1, -0.5f)).normalized * 200); break;
-		default: body.AddForce(new Vector3(Random.Range(-1, -0.5f), Random.Range(- 1, -0.5f)).normalized * 200); break;
+		case 0: body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(0.5f, 1f)).normalized * 200 * scale); break;
+		case 1: body.AddForce(new Vector3(Random.Range(-1, -0.5f), Random.Range(0.5f, 1f)).normalized * 200 * scale); break;
+		case 2: body.AddForce(new Vector3(Random.Range(0.5f, 1f), Random.Range(-1, -0.5f)).normalized * 200 * scale); break;
+		default: body.AddForce(new Vector3(Random.Range(-1, -0.5f), Random.Range(- 1, -0.5f)).normalized * 200 * scale); break;
 		}
 	}
 
