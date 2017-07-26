@@ -31,7 +31,7 @@ public class GameOverDialog : BaseDialog {
     IEnumerator ShowRate()
     {
         yield return new WaitForSeconds(0.5f);
-        int isShow = Random.Range(0, 0);
+        int isShow = Random.Range(0, 10);
         if (isShow == 0)
         {
             RateDialog dialog = GUIManager.Instance.OnShowDialog<RateDialog>("Rate");

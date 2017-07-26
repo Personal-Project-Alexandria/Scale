@@ -112,7 +112,7 @@ public class Shape : MonoBehaviour {
 
 			RenderMesh(points3);
 
-			yield return null;
+			yield return new WaitForFixedUpdate();
 
 			if (curScale < scale)
 			{

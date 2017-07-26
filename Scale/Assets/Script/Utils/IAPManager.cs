@@ -11,18 +11,18 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 
 
 #if UNITY_ANDROID
-	private static string PRODUCT_1000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_0";
-	private static string PRODUCT_3500_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_1";
-	private static string PRODUCT_7000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_2";
-	private static string PRODUCT_10000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_3";
-	private static string PRODUCT_15000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_4";
-	private static string PRODUCT_20000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_5";
-	private static string PRODUCT_30000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_6";
-	private static string PRODUCT_40000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_7";
-	private static string PRODUCT_50000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_8";
-	private static string PRODUCT_70000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_9";
-	private static string PRODUCT_150000_DIAMOND = "com.puzzlegame.freegame.scaleslicer.diamond_10";
-	private static string PRODUCT_NOADS = "com.puzzlegame.freegame.scaleslicer.noads";
+	private static string PRODUCT_1000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_0";
+	private static string PRODUCT_3500_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_1";
+	private static string PRODUCT_7000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_2";
+	private static string PRODUCT_10000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_3";
+	private static string PRODUCT_15000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_4";
+	private static string PRODUCT_20000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_5";
+	private static string PRODUCT_30000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_6";
+	private static string PRODUCT_40000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_7";
+	private static string PRODUCT_50000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_8";
+	private static string PRODUCT_70000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_9";
+	private static string PRODUCT_150000_DIAMOND = "com.topfreepuzzle.scaleslice.diamond_10";
+	private static string PRODUCT_NOADS = "com.topfreepuzzle.scaleslice.noads";
 #elif UNITY_IOS
 	private static string PRODUCT_1000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_0";
 	private static string PRODUCT_3500_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_1";
