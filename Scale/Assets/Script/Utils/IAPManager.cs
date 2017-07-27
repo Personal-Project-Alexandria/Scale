@@ -24,18 +24,18 @@ public class IAPManager : MonoSingleton<IAPManager>, IStoreListener
 	private static string PRODUCT_150000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_10";
 	private static string PRODUCT_NOADS = "com.topfreepuzzle.tapshrink.noads";
 #elif UNITY_IOS
-	private static string PRODUCT_1000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_0";
-	private static string PRODUCT_3500_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_1";
-	private static string PRODUCT_7000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_2";
-	private static string PRODUCT_10000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_3";
-	private static string PRODUCT_15000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_4";
-	private static string PRODUCT_20000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_5";
-	private static string PRODUCT_30000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_6";
-	private static string PRODUCT_40000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_7";
-	private static string PRODUCT_50000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_8";
-	private static string PRODUCT_70000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_9";
-	private static string PRODUCT_150000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_10";
-	private static string PRODUCT_NOADS = "com.quoclv.bestgame.scalecolor.noads";
+	private static string PRODUCT_1000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_0";
+	private static string PRODUCT_3500_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_1";
+	private static string PRODUCT_7000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_2";
+	private static string PRODUCT_10000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_3";
+	private static string PRODUCT_15000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_4";
+	private static string PRODUCT_20000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_5";
+	private static string PRODUCT_30000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_6";
+	private static string PRODUCT_40000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_7";
+	private static string PRODUCT_50000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_8";
+	private static string PRODUCT_70000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_9";
+	private static string PRODUCT_150000_DIAMOND = "com.topfreepuzzle.tapshrink.diamond_10";
+	private static string PRODUCT_NOADS = "com.topfreepuzzle.tapshrink.noads";
 #else
 	private static string PRODUCT_1000_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_0";
 	private static string PRODUCT_3500_DIAMOND = "com.quoclv.bestgame.scalecolor.diamond_1";

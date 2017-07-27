@@ -9,7 +9,7 @@ public class RateDialog : BaseDialog {
 #if UNITY_ANDROID
         Application.OpenURL("https://play.google.com/store/apps/details?id=com.topfreepuzzle.tapshrink");
 #elif UNITY_IOS
-        Application.OpenURL("https://itunes.apple.com/us/app/scale-color/id1261258088");
+        Application.OpenURL("https://itunes.apple.com/us/app/id1264453259");
 #endif
     }
 }
