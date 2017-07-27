@@ -64,7 +64,7 @@ public class GameOverDialog : BaseDialog {
 	{
 		if (GameManager.Instance.mode == 0)
 		{
-			mode.text = "Scale";
+			mode.text = "classic";
 		}
 		else if (GameManager.Instance.mode == 1)
 		{

@@ -7,7 +7,7 @@ public class RateDialog : BaseDialog {
 	public void OnClickRate()
     {
 #if UNITY_ANDROID
-        Application.OpenURL("https://play.google.com/store/apps/details?id=com.topfreepuzzle.scaleslice");
+        Application.OpenURL("https://play.google.com/store/apps/details?id=com.topfreepuzzle.tapshrink");
 #elif UNITY_IOS
         Application.OpenURL("https://itunes.apple.com/us/app/scale-color/id1261258088");
 #endif

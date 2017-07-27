@@ -17,7 +17,7 @@ public class GameStartDialog : BaseDialog {
 		highScore.text = UserProfile.Instance.GetHighScore(GameManager.Instance.mode).ToString();
 		if (GameManager.Instance.mode == 0)
 		{
-			mode.text = "Scale";
+			mode.text = "classic";
 		}
 		else if (GameManager.Instance.mode == 1)
 		{

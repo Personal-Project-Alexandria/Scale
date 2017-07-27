@@ -19,7 +19,7 @@ public class LeaderDialog : BaseDialog {
 	{
 		if (GameManager.Instance.mode == 0)
 		{
-			modeName.text = "Scale";
+			modeName.text = "classic";
 		}
 		else if (GameManager.Instance.mode == 1)
 		{
