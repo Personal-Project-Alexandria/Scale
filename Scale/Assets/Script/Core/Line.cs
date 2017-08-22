@@ -32,7 +32,7 @@ public class Line : MonoBehaviour {
 		{
 			gameObject.AddComponent<LineRenderer>();	
 		}
-		lineRender.numPositions = 2;
+		lineRender.positionCount = 2;
 		lineRender.SetPosition(0, Vector3.zero);
 		lineRender.SetPosition(1, Vector3.zero);
 		lineRender.useWorldSpace = false;

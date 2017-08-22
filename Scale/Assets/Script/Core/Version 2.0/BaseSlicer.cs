@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public enum SliceType { STRAIGHT, CORNER }
 
@@ -19,6 +20,10 @@ public class BaseSlicer : MonoBehaviour {
 
 	[HideInInspector]
 	public float area;
+	[HideInInspector]
+	public bool hit = false;
+	[HideInInspector]
+	public bool available = false;
 
 	private BaseSlicerLine first;
 	private BaseSlicerLine second;
@@ -38,9 +43,12 @@ public class BaseSlicer : MonoBehaviour {
 	public void Create()
 	{
 		rotate = true;
-
+		hit = false;
+		available = false;
 		this.type = (SliceType)Random.Range(0, 2);
 		this.sprite.transform.rotation = Quaternion.identity;
+		this.sprite.transform.DOKill();
+		this.sprite.transform.localScale = Vector3.one * 0.75f;
 
 		GameObject firstLine = Instantiate(linePrefab, transform.position, Quaternion.identity, transform);
 		GameObject secondLine = Instantiate(linePrefab, transform.position, Quaternion.identity, transform);
@@ -129,7 +137,14 @@ public class BaseSlicer : MonoBehaviour {
 
 	public void Slice()
 	{
-		if (first.wait && second.wait)
+		StartCoroutine(SliceAfterFixedUpdate());
+	}
+
+	IEnumerator SliceAfterFixedUpdate()
+	{
+		yield return new WaitForFixedUpdate();
+
+		if (first.wait && second.wait && !this.hit)
 		{
 			first.MakeInfo();
 			second.MakeInfo();
@@ -246,6 +261,7 @@ public class BaseSlicer : MonoBehaviour {
 	protected float downTime = 0f;
 	[HideInInspector]
 	public bool grow = false;
+	protected bool up = false;
 
 	protected void Update()
 	{
@@ -255,7 +271,7 @@ public class BaseSlicer : MonoBehaviour {
 			return;
 		}
 
-		if (this.grow)
+		if (this.grow && !this.hit)
 		{
 			Grow(Time.deltaTime * slicerManager.sliceSpeed);
 		}
@@ -265,17 +281,17 @@ public class BaseSlicer : MonoBehaviour {
 			rotateTip.transform.Rotate(new Vector3(0, 0, -1f));
 		}
 
-		Shape shape = GameManager.Instance.shape;
+		//Shape shape = GameManager.Instance.shape;
 
-		float width = linePrefab.GetComponent<LineRenderer>().startWidth * 5f;
+		//float width = linePrefab.GetComponent<LineRenderer>().startWidth * 3f;
 
-		Vector3 tl, tr, bl, br;
-		tl = transform.position + new Vector3(-width / 1.5f, width);
-		tr = transform.position + new Vector3(width / 1.5f, width);
-		bl = transform.position + new Vector3(-width / 1.5f, -0);
-		br = transform.position + new Vector3(width / 1.5f, -0);
+		//Vector3 tl, tr, bl, br;
+		//tl = transform.position + new Vector3(-width, width);
+		//tr = transform.position + new Vector3(width, width);
+		//bl = transform.position + new Vector3(-width, -width);
+		//br = transform.position + new Vector3(width, -width);
 
-		if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
+		if (/*shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br)*/available)
 		{
 			if (type == SliceType.STRAIGHT)
 			{
@@ -285,6 +301,7 @@ public class BaseSlicer : MonoBehaviour {
 			{
 				sprite.sprite = corner;
 			}
+			available = true;
 		}
 		else
 		{
@@ -296,6 +313,7 @@ public class BaseSlicer : MonoBehaviour {
 			{
 				sprite.sprite = cornerOut;
 			}
+			available = false;
 		}
 	}
 
@@ -326,7 +344,13 @@ public class BaseSlicer : MonoBehaviour {
 		{
 			HideRotateTip();
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) + offset;
-			this.transform.position = curPosition;
+			transform.position = curPosition;
+
+			if (up || Vector3.Distance(transform.position, start) >= 0.2f)
+			{
+				transform.position += Vector3.up * 0.7f;
+				up = true;
+			}
 		}
 	}
 
@@ -339,20 +363,10 @@ public class BaseSlicer : MonoBehaviour {
 
 		if (slicerManager.down && !this.grow && !GameManager.Instance.inScale)
 		{
-			//BoxCollider2D box = GetComponent<BoxCollider2D>();
-			Shape shape = FindObjectOfType<Shape>(); // Cheat here
-
-			float width = linePrefab.GetComponent<LineRenderer>().startWidth * 2f;
-
-			Vector3 tl, tr, bl, br;
-			tl = transform.position + new Vector3(-width, width);
-			tr = transform.position + new Vector3(width, width);
-			bl = transform.position + new Vector3(-width, -width);
-			br = transform.position + new Vector3(width, -width);
-
-			if (shape.PointInPolygon(tl) && shape.PointInPolygon(tr) && shape.PointInPolygon(bl) && shape.PointInPolygon(br))
+			if (available)
 			{
 				this.grow = true;
+				this.sprite.transform.DOScale(0, 0.5f);
 			}
 			else
 			{
@@ -365,6 +379,7 @@ public class BaseSlicer : MonoBehaviour {
 				ShowRotateTip();
 			}
 
+			up = false;
 			slicerManager.down = false;
 			slicerManager.downTime = 0f;
 		}

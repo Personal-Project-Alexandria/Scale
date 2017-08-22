@@ -7,6 +7,7 @@ public enum PColor
 	RED,
 	GREEN,
 	BLUE,
+	LIME,
 	WHITE,
 	GRAY,
 	YELLOW,
@@ -26,24 +27,25 @@ public class Palette {
 		return System.Enum.GetNames(typeof(PColor)).Length;
 	}
 
-	public static Color Translate(PColor color)
+	public static Color Translate(PColor color, byte alpha = 255)
 	{
 		switch (color)
 		{
-		case PColor.RED: return new Color32(223, 107, 107, 255);
-		case PColor.GREEN: return new Color32(74, 206, 108, 255);
-		case PColor.GRAY: return new Color32(58, 58, 58, 255);
-		case PColor.BLUE: return new Color32(55, 78, 188, 255);
-		case PColor.BLACK: return new Color32(35, 35, 35, 255);
-		case PColor.YELLOW: return new Color32(206, 186, 74, 255);
-		case PColor.PURPLE: return new Color32(104, 55, 188, 255);
-		case PColor.WHITE: return new Color32(255, 255, 255, 255);
-		case PColor.PINK: return new Color32(206, 74, 148, 255);
-		case PColor.DARKYELLOW: return new Color32(206, 164, 74, 255);
-		case PColor.GOLD: return new Color32(173, 164, 65, 255);
-		case PColor.SILVER: return new Color32(129, 131, 159, 255);
-		case PColor.BRONZE: return new Color32(120, 89, 49, 255);
-		default: return new Color32(0, 0, 0, 255);
+		case PColor.RED: return new Color32(223, 107, 107, alpha);
+		case PColor.GREEN: return new Color32(74, 206, 108, alpha);
+		case PColor.GRAY: return new Color32(58, 58, 58, alpha);
+		case PColor.LIME: return new Color32(65, 201, 156, alpha);
+		case PColor.BLUE: return new Color32(55, 78, 188, alpha);
+		case PColor.BLACK: return new Color32(35, 35, 35, alpha);
+		case PColor.YELLOW: return new Color32(74, 206, 108, alpha);
+		case PColor.PURPLE: return new Color32(104, 55, 188, alpha);
+		case PColor.WHITE: return new Color32(255, 255, 255, alpha);
+		case PColor.PINK: return new Color32(206, 74, 148, alpha);
+		case PColor.DARKYELLOW: return new Color32(74, 206, 108, alpha);
+		case PColor.GOLD: return new Color32(173, 164, 65, alpha);
+		case PColor.SILVER: return new Color32(129, 131, 159, alpha);
+		case PColor.BRONZE: return new Color32(120, 89, 49, alpha);
+		default: return new Color32(0, 0, 0, alpha);
 		}
 	}
 

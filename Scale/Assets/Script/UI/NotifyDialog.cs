@@ -85,15 +85,9 @@ public class NotifyDialog : BaseDialog {
 		Button noAdsButton = (Button)data;
 		IAPManager.Instance.BuyNoAds();
 
-		if (UserProfile.Instance.HasAds())
+		if (!UserProfile.Instance.HasAds())
 		{
-			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.hasAds;
-			noAdsButton.interactable = true;
-		}
-		else
-		{
-			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.noAds;
-			noAdsButton.interactable = false;
+			noAdsButton.gameObject.SetActive(false);
 		}
 		OnCloseDialog();
 	}

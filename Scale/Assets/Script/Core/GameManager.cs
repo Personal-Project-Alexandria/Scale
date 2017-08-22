@@ -11,14 +11,16 @@ public class GameManager : MonoSingleton<GameManager> {
 
 	public float goalPercent = 0.5f;
 	public GameObject shapePrefab;
+	[HideInInspector]
 	public Slicer slicer;
 	public Ball ball;
+	[HideInInspector]
 	public Shape shape;
 	public int life;
 	public int level;
 	public float percent;
+	[HideInInspector]
 	public GamePlayDialog gamePlay;
-    public Transform gameAnchor;
 	public BallManager ballManager;
 	public SlicerManager slicerManager;
 	public float area;
@@ -109,9 +111,12 @@ public class GameManager : MonoSingleton<GameManager> {
 		percent = 0;
 		level++;
 
-		Color rand = Palette.RandomColorExcept(new List<PColor>() { PColor.WHITE, PColor.YELLOW, PColor.DARKYELLOW });
-		gamePlay.background.color = rand;
+		Color rand = Palette.RandomColorExcept(new List<PColor>() { PColor.WHITE, PColor.YELLOW,
+			PColor.DARKYELLOW, PColor.GOLD, PColor.BRONZE });
+		gamePlay.background.color = new Color(rand.r, rand.g, rand.b, 0.8f);
 		shape.FillColor(rand);
+
+		UIEffect.Instance.MakeEffectScore(level);
 
 		if (mode == 1)
 		{
@@ -138,7 +143,10 @@ public class GameManager : MonoSingleton<GameManager> {
 
 		UserProfile.Instance.AddDiamond(level * 10);
 
-		AdManager.Instance.ShowVideo();
+		if (this.level > 3)
+		{
+			AdManager.Instance.ShowVideo();
+		}
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
     }

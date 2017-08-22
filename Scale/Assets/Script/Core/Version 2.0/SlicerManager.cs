@@ -45,7 +45,7 @@ public class SlicerManager : MonoBehaviour {
 		{
 			GameObject slicerObject = (GameObject)Instantiate(slicerPrefab, transform);
 			slicers.Add(slicerObject.GetComponent<BaseSlicer>());
-			slicers[i].start = new Vector3(dis * i - half, -3.5f, 0);
+			slicers[i].start = new Vector3(dis * i - half, -3.75f, 0);
 			slicers[i].slicerManager = this;
 		}
 	}

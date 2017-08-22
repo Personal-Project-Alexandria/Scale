@@ -207,6 +207,16 @@ public class Slicer : MonoSingleton<Slicer> {
 		{
 			des.Add(src[i % src.Count]);
 		}
+
+		List<Vector3> temp = new List<Vector3>();
+		for (int i = 0; i < des.Count; i++)
+		{
+			if (!des[i].Equals(des[(i + 1) % des.Count]))
+			{
+				temp.Add(des[i]);
+			}
+		}
+		des = temp;
 	}
 
 	// ----------------------------------------- DRAG AND DROP ------------------------------------------//

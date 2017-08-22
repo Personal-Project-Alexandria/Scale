@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ExtraLifeDialog : BaseDialog {
 
 	private int diamondCost = 150;
-	public Text diamondText;
+	private bool close = false;
 
 	public Text timeRemain;
 	public Button adsButton;
@@ -28,14 +28,16 @@ public class ExtraLifeDialog : BaseDialog {
 	}
 
 	// Update is called once per frame
-	void Update () {
-		time -= Time.deltaTime;
-		timeRemain.text = Mathf.RoundToInt(time).ToString();
-
-		if (time <= 0f)
+	void Update ()
+	{
+		if (time <= 0f && !close)
 		{
 			OnClickClose();
+			return;
 		}
+
+		time -= Time.deltaTime;
+		timeRemain.text = Mathf.RoundToInt(time).ToString();
 
 		if (AdManager.Instance.IsRewardedVideoLoaded())
 		{
@@ -65,19 +67,20 @@ public class ExtraLifeDialog : BaseDialog {
 		if (UserProfile.Instance.ReduceDiamond(diamondCost))
 		{
 			GameManager.Instance.ContinueOnLose();
-			OnHide();
+			this.OnCloseDialog();
 		}
 	}
 
 	public void OnClickBuyLifeByAds()
 	{
 		AdManager.Instance.ShowRewardedVideo();
-		OnHide();
+		this.OnCloseDialog();
 	}
 
 	public void OnClickClose()
 	{
+		this.OnCloseDialog();
+		close = true;
 		GameManager.Instance.GameOver();
-		this.OnHide();
 	}
 }

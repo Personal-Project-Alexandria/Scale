@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class UserProfile : MonoSingleton<UserProfile> {
 
+	public string gameName;
 	public List<Sprite> ballSprites;
 	public Sprite noSound;
 	public Sprite hasSound;
-	public Sprite noAds;
-	public Sprite hasAds;
 
 	private const int ITEM_COUNT = 15;
 
@@ -90,6 +89,11 @@ public class UserProfile : MonoSingleton<UserProfile> {
 	public void ClearDiamond()
 	{
 		ReduceDiamond(GetDiamond());
+	}
+	[ContextMenu("Clear Data - test only")] 
+	public void ClearData()
+	{
+		PlayerPrefs.DeleteAll();
 	}
 
 	// Ads function

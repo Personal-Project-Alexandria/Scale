@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class RateDialog : BaseDialog {
 
+	public override void OnShow(Transform transf, object data)
+	{
+		base.OnShow(transf, data);
+		gameName.text = "Do you like\n" + UserProfile.Instance.gameName;
+	}
+
 	public void OnClickRate()
     {
 #if UNITY_ANDROID

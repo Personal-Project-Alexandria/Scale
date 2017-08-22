@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Facebook.Unity;
+using DG.Tweening;
 
 public class GameStartDialog : BaseDialog {
-
+	
 	public Text mode;
 	public Text highScore;
 	public Button noAdsButton;
 	public Button soundButton;
+	public Image playButton;
+	public Image highScoreIcon; 
 
 	public override void OnShow(Transform transf, object data)
 	{
@@ -29,19 +32,18 @@ public class GameStartDialog : BaseDialog {
 		}
 		AdManager.Instance.ShowBanner();
 		Setup();
+
+		if (!(this is GameOverDialog))
+		{
+			highScoreIcon.transform.DOShakeRotation(5f, new Vector3(0, 0, 10f), 0).SetLoops(-1, LoopType.Restart);
+		}
 	}
 
 	public void Setup()
 	{
-		if (UserProfile.Instance.HasAds())
+		if (!UserProfile.Instance.HasAds())
 		{
-			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.hasAds;
-			noAdsButton.interactable = true;
-		}
-		else
-		{
-			noAdsButton.GetComponent<Image>().sprite = UserProfile.Instance.noAds;
-			noAdsButton.interactable = false;
+			noAdsButton.gameObject.SetActive(false);
 		}
 
 		if (SoundManager.Instance.IsBackgroundPlaying())

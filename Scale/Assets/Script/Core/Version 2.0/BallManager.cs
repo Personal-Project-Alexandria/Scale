@@ -6,6 +6,7 @@ public class BallManager : MonoBehaviour
 {
 	public GameObject ballPrefabs;
 	private List<BaseBall> balls;
+	private float recoverTime = 0.1f;
 
 	public void Init(int count)
 	{
@@ -95,14 +96,22 @@ public class BallManager : MonoBehaviour
 
 	public void OnHit()
 	{
-		GameManager.Instance.life--;
-
-		ScaleBall();
-
-		if (GameManager.Instance.life <= 0)
+		if (recoverTime <= 0)
 		{
-			OnLose();
+			recoverTime = 0.1f;
+
+			GameManager.Instance.life--;
+			ScaleBall();
+			if (GameManager.Instance.life == 0)
+			{
+				OnLose();
+			}
 		}
+	}
+
+	public void Update()
+	{
+		recoverTime -= Time.deltaTime;
 	}
 
 	public void OnLose()
@@ -113,6 +122,7 @@ public class BallManager : MonoBehaviour
 
 	public void ScaleBall()
 	{
+
 		for (int i = 0; i < balls.Count; i++)
 		{
 			if (balls[i] != null)

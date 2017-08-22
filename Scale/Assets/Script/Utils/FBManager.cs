@@ -31,9 +31,9 @@ public class FBManager : MonoSingleton<FBManager> {
 	public void ShareLink()
 	{
 #if UNITY_ANDROID
-		FB.ShareLink(new Uri("https://play.google.com/store/apps/details?id=com.topfreepuzzle.tapshrink"), "TAP Shrink", "Join us to play this awesome game", null, ShareLinkCallback);
+		FB.ShareLink(new Uri("https://play.google.com/store/apps/details?id=com.topfreepuzzle.tapshrink"), UserProfile.Instance.gameName, "Join us to play this awesome game", null, ShareLinkCallback);
 #elif UNITY_IOS
-		FB.ShareLink(new Uri("https://itunes.apple.com/us/app/id1264453259"), "TAP Shrink", "Join us to play this awesome game", null, ShareLinkCallback);
+		FB.ShareLink(new Uri("https://itunes.apple.com/us/app/id1264453259"), UserProfile.Instance.gameName, "Join us to play this awesome game", null, ShareLinkCallback);
 #endif
 	}
 
@@ -59,39 +59,6 @@ public class FBManager : MonoSingleton<FBManager> {
 		return this.fbname;
 	}
 
-	//private IEnumerator TakeScreenshot()
-	//{
-	//	//screenRecorder.CaptureScreenshot();
-
-	//	//while (screenRecorder.screenshotBytes == null)
-	//	//{
-	//	//	yield return new WaitForEndOfFrame();
-	//	//}
-
-	//	////FB.ShareLink(new Uri("https://www.google.com"), "Scale Color", "Very fun game", screenRecorder.screenshotUri, ShareLinkCallback);
-
-	//	////screenRecorder.screenshotUri = null;
-
-	//	////Texture2D screenTexture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, true);
-
-	//	////screenTexture.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0);
-
-	//	////screenTexture.Apply();
-
-	//	////byte[] dataToSave = screenTexture.EncodeToPNG();
-
-	//	////string destination = Path.Combine(Application.persistentDataPath, "screenshot.png");
-
-	//	////File.WriteAllBytes(screenshotUri.AbsolutePath, dataToSave);
-
-	//	////uri = new System.Uri(Application.persistentDataPath + "/screenshot.png");
-
-	//	//var wwwForm = new WWWForm();
-	//	//wwwForm.AddBinaryData("image", screenRecorder.screenshotBytes, "Screenshot.png");
-
-	//	//FB.API("me/photos", HttpMethod.POST, ShareScreenCallback, wwwForm);
-	//	////ShareLink();		
-	//}
 
 	private void ShareScreenCallback(IGraphResult reusult)
 	{

@@ -86,22 +86,23 @@ public class BaseSlicerLine : Line {
 
 	public void OnTriggerEnter2D(Collider2D col)
 	{
-		if (col.CompareTag("Line") && !wait)
+		if (col.CompareTag("Ball") && !slicer.hit)
 		{
-			wait = true;
-			line = col.GetComponent<Line>();
-			this.slicer.Slice();
-		}
-
-		if (col.CompareTag("Ball") && !hit)
-		{
-			hit = true;
+			slicer.hit = true;
 			this.slicer.OnHit();
 			EffectManager.Instance.BallTouchLine(col.transform.position, 0.2f);
 			GameManager.Instance.ballManager.OnHit();
 			GameManager.Instance.CheckPercent();
 		}
+		else if (col.CompareTag("Line") && !wait && !slicer.hit)
+		{
+			wait = true;
+			line = col.GetComponent<Line>();
+			this.slicer.Slice();
+		}
 	}
+
+	// Need to do: Phá line > dừng line ngay lập tức > ko bị trừ máu nhiều lần > 
 
 	public void MakeInfo()
 	{

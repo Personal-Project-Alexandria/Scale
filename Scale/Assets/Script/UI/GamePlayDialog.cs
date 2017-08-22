@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class GamePlayDialog : BaseDialog
 {
@@ -13,7 +14,6 @@ public class GamePlayDialog : BaseDialog
 		GameManager.Instance.gamePlay = this;
 		GameManager.Instance.StartGame();
 	}
-
 	public void OnClickPause()
 	{
 		PauseDialog dialog = GUIManager.Instance.OnShowDialog<PauseDialog>("Pause");
@@ -26,7 +26,16 @@ public class GamePlayDialog : BaseDialog
 	public Text diamond;
 	public Slider slider;
 	public Text rotateTip;
+	public Image ballIcon;
+	public List<Sprite> ballLife;
 
+	public void ChangeBallIconByLife(int i)
+	{
+		if (ballLife != null && ballIcon != null && i < ballLife.Count && i >= 0)
+		{
+			ballIcon.sprite = ballLife[i];
+		}
+	}
 	protected void Update()
 	{
 		life.text = GameManager.Instance.life.ToString();

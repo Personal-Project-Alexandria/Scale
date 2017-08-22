@@ -401,18 +401,24 @@ public class Shape : MonoBehaviour {
 	}
 
 	// --------------------------------------------------------------------------------//
-
+	// 0 1 2 3 4 Count = 5 (4 + 1) = 5 p[4] != p[0]
 	public void RenderMesh(List<Vector3> points3)
 	{
-		Vector2[] points = new Vector2[points3.Count];
-		for (int i = 0; i < points.Length; i++)
+		List<Vector2> points2 = new List<Vector2>();
+		for (int i = 0; i < points3.Count; i++)
 		{
-			points[i] = new Vector2(points3[i].x, points3[i].y);
+			Vector2 point = new Vector2(points3[i].x, points3[i].y);
+			if (!point.Equals(points3[(i + 1) % points3.Count])) 
+			{
+				points2.Add(point);
+			}
 		}
+		Vector2[] points = points2.ToArray();
 
 		int pointCount = points.Length;
 		MeshFilter mf = GetComponent<MeshFilter>();
 		MeshRenderer mr = GetComponent<MeshRenderer>();
+		PolygonCollider2D pc = GetComponent<PolygonCollider2D>();
 		Mesh mesh = new Mesh();
 		Vector3[] vertices = new Vector3[pointCount];
 		Vector2[] uv = new Vector2[pointCount];
@@ -429,6 +435,7 @@ public class Shape : MonoBehaviour {
 		mesh.uv = uv;
 		mf.mesh = mesh;
 		mr.material.color = Shape.fill;
+		pc.SetPath(0, points);
 	}
 
 	private static Color fill = Palette.Translate(PColor.PURPLE);

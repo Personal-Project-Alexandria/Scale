@@ -81,6 +81,7 @@ public class BaseBall : MonoBehaviour {
 
 	public void ScaleBall()
 	{
+		GameManager.Instance.gamePlay.ChangeBallIconByLife(GameManager.Instance.life - 1);
 		this.sprite.sprite = UserProfile.Instance.GetBallSprite();
 		int life = GameManager.Instance.life;
 

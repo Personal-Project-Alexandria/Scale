@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseDialog : MonoBehaviour {
 
-    public object data;
+	public Text gameName;
+	public object data;
     public virtual void OnShow(Transform transf, object data)
     {
         this.transform.SetParent(transf);
@@ -13,6 +15,10 @@ public class BaseDialog : MonoBehaviour {
         RectTransform rect = (RectTransform)this.transform;
         rect.sizeDelta = Vector2.zero;
         this.data = data;
+		if (gameName != null)
+		{
+			gameName.text = UserProfile.Instance.gameName;
+		}
         
     }
     public virtual void OnHide()
