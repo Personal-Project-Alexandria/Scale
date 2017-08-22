@@ -348,7 +348,7 @@ public class BaseSlicer : MonoBehaviour {
 
 			if (up || Vector3.Distance(transform.position, start) >= 0.2f)
 			{
-				transform.position += Vector3.up * 0.7f;
+				transform.position += Vector3.up * 1f;
 				up = true;
 			}
 		}
