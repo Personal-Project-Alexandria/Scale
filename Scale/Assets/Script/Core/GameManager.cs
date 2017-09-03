@@ -145,7 +145,7 @@ public class GameManager : MonoSingleton<GameManager> {
 
 		if (this.level > 3)
 		{
-			AdManager.Instance.ShowVideo();
+			AdManager.Instance.ShowInterstitial();
 		}
 
 		GameOverDialog gameOverDialog = GUIManager.Instance.OnShowDialog<GameOverDialog>("Over");
@@ -155,7 +155,7 @@ public class GameManager : MonoSingleton<GameManager> {
 	{
 		EndGame();
 
-		AdManager.Instance.ShowVideo();
+		AdManager.Instance.ShowInterstitial();
 
 		GameStartDialog start = GUIManager.Instance.OnShowDialog<GameStartDialog>("Start");
 	}

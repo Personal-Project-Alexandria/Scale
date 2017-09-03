@@ -73,7 +73,7 @@ public class ExtraLifeDialog : BaseDialog {
 
 	public void OnClickBuyLifeByAds()
 	{
-		AdManager.Instance.ShowRewardedVideo();
+		AdManager.Instance.ShowRewardVideo();
 		this.OnCloseDialog();
 	}
 
